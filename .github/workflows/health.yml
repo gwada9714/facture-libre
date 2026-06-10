@@ -1,0 +1,64 @@
+# Auto-surveillance : vérifie deux fois par semaine que le site répond et contient
+# le contenu attendu. En cas de panne : ouvre (ou commente) une issue d'incident,
+# et fait échouer le workflow pour déclencher la notification GitHub par email.
+name: Healthcheck
+
+on:
+  schedule:
+    - cron: "23 7 * * 1,4" # lundi et jeudi, 07h23 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Vérifier la disponibilité du site
+        id: check
+        env:
+          SITE_URL_OVERRIDE: ${{ vars.SITE_URL }}
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          OWNER_LC="$(echo "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')"
+          URL="${SITE_URL_OVERRIDE:-https://${OWNER_LC}.github.io/${REPO_NAME}/}"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          code=$(curl -s -o /tmp/page.html -w "%{http_code}" --retry 3 --max-time 30 "$URL" || echo "000")
+          echo "Code HTTP : $code"
+          if [ "$code" = "200" ] && grep -q "FactureLibre" /tmp/page.html; then
+            echo "status=up" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=down" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Signaler l'incident (issue)
+        if: steps.check.outputs.status == 'down'
+        run: |
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "Site injoignable in:title" --json number --jq '.[0].number // empty')
+          when=$(date -u +"%Y-%m-%d %H:%M UTC")
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body "Toujours injoignable au $when — ${{ steps.check.outputs.url }}"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "🔴 Site injoignable (healthcheck)" \
+              --body "Le healthcheck n'a pas pu joindre ${{ steps.check.outputs.url }} ($when).
+
+Marche à suivre (voir RUNBOOK.md) :
+1. Vérifier https://www.githubstatus.com
+2. Vérifier Settings → Pages (source : GitHub Actions)
+3. Relancer le workflow « Déploiement » (onglet Actions)
+4. En dernier recours : git revert du dernier commit, puis push"
+          fi
+
+      - name: Résumé
+        run: |
+          echo "### Healthcheck : ${{ steps.check.outputs.status }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "URL : ${{ steps.check.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Échec si indisponible
+        if: steps.check.outputs.status == 'down'
+        run: exit 1

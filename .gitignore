@@ -1,5 +1,8 @@
 node_modules/
 *.log
+
+# Généré au déploiement par tools/prepare-deploy.js (jamais commité)
+site/sitemap.xml
 .DS_Store
 Thumbs.db
 .env
