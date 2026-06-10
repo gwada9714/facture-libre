@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Générateur de facture auto-entrepreneur — gratuit, conforme, sans inscription | FactureLibre</title>
+  <meta name="description" content="Créez une facture conforme de micro-entrepreneur en 2 minutes : mentions obligatoires, franchise de TVA (art. 293 B), numérotation automatique, export PDF. 100 % gratuit — vos données ne quittent pas votre navigateur.">
+  <link rel="canonical" href="__SITE_URL__">
+  <meta property="og:title" content="FactureLibre — factures conformes pour micro-entrepreneurs, gratuit et sans inscription">
+  <meta property="og:description" content="Mentions obligatoires, TVA, numérotation, export PDF. Aucune donnée envoyée : tout reste dans votre navigateur.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="__SITE_URL__">
+  <meta property="og:locale" content="fr_FR">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231c2b4a'/%3E%3Cpath d='M10 8h12v3H14v4h7v3h-7v6h-4z' fill='%23f6f1e6'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23bf3b1f'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FactureLibre",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "fr",
+    "description": "Générateur de factures conformes pour micro-entrepreneurs français. Gratuit, sans inscription, les données restent dans le navigateur.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "FactureLibre est-il vraiment gratuit ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Oui. La création de factures, l'export PDF, la numérotation automatique et l'historique sont gratuits, sans inscription ni limite. Une offre Pro optionnelle financera le projet (personnalisation avancée, devis, récurrence)." }
+      },
+      {
+        "@type": "Question",
+        "name": "Mes données de facturation sont-elles envoyées sur un serveur ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Non. FactureLibre fonctionne entièrement dans votre navigateur : vos informations et votre historique sont enregistrés localement sur votre appareil (localStorage) et ne sont jamais transmis à un serveur." }
+      },
+      {
+        "@type": "Question",
+        "name": "La facture générée est-elle conforme pour un micro-entrepreneur ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "L'outil intègre les mentions obligatoires usuelles : identité des parties, SIRET, numéro et dates, détail des prestations, mention « TVA non applicable, art. 293 B du CGI » en franchise de TVA, pénalités de retard et indemnité forfaitaire de recouvrement de 40 €. Vérifiez les règles propres à votre activité : cet outil ne remplace pas un conseil juridique ou comptable." }
+      },
+      {
+        "@type": "Question",
+        "name": "Et la facturation électronique obligatoire 2026-2027 ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "La réforme française concerne les échanges entre entreprises (B2B) et s'étale entre septembre 2026 et septembre 2027. Une facture PDF reste valable pour les clients particuliers, et pour les professionnels jusqu'aux échéances qui vous concernent. Notre guide détaille le calendrier et renvoie aux sources officielles." }
+      }
+    ]
+  }
+  </script>
+  <script defer src="assets/config.js"></script>
+  <script defer src="assets/calc.js"></script>
+  <script defer src="assets/vendor/jspdf.umd.min.js"></script>
+  <script defer src="assets/pdf.js"></script>
+  <script defer src="assets/app.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="./">Facture<em>Libre</em><span class="dot">.</span></a>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="guides/">Guides</a>
+      <a href="pro.html">Pro</a>
+      <a href="#faq">Questions</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>La facture conforme de micro&#8209;entrepreneur, <span class="souligne">en deux minutes</span>.</h1>
+      <p class="lede">Mentions obligatoires, franchise de TVA, numérotation automatique, export PDF.
+      Sans inscription, sans envoi de vos données — tout se passe dans votre navigateur.</p>
+      <ul class="badges">
+        <li>100&nbsp;% gratuit</li>
+        <li>Mentions obligatoires incluses</li>
+        <li>Aucune donnée envoyée</li>
+        <li>Export PDF instantané</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="tool" aria-label="Outil de création de facture">
+    <div class="wrap tool-grid">
+
+      <div class="form-col">
+        <form id="invoice-form" class="franchise-on" autocomplete="on">
+
+          <section class="card" aria-labelledby="h-emitter">
+            <div class="card-head">
+              <span class="stepnum" aria-hidden="true">1</span>
+              <h2 id="h-emitter">Vous (émetteur)</h2>
+              <span class="hint">mémorisé pour la prochaine fois</span>
+            </div>
+            <div class="grid2">
+              <div class="field span2">
+                <label for="em-name">Nom ou raison sociale</label>
+                <input type="text" id="em-name" placeholder="Marie Dupont — Graphiste">
+              </div>
+              <div class="field span2">
+                <label for="em-address">Adresse</label>
+                <textarea id="em-address" rows="2" placeholder="12 rue des Lilas&#10;75011 Paris"></textarea>
+              </div>
+              <div class="field">
+                <label for="em-siret">SIRET</label>
+                <input type="text" id="em-siret" inputmode="numeric" placeholder="123 456 789 00012">
+                <span class="field-warn" id="em-siret-warn" role="status"></span>
+              </div>
+              <div class="field">
+                <label for="em-email">Email <span class="opt">(optionnel)</span></label>
+                <input type="email" id="em-email" placeholder="contact@exemple.fr">
+              </div>
+              <div class="field">
+                <label for="em-phone">Téléphone <span class="opt">(optionnel)</span></label>
+                <input type="tel" id="em-phone" placeholder="06 12 34 56 78">
+              </div>
+              <div class="field">
+                <label for="em-vat">N° TVA intracom. <span class="opt">(si assujetti)</span></label>
+                <input type="text" id="em-vat" placeholder="FR 12 345678901">
+              </div>
+              <div class="field">
+                <label for="em-iban">IBAN <span class="opt">(pour le virement)</span></label>
+                <input type="text" id="em-iban" placeholder="FR76 …">
+              </div>
+              <div class="field">
+                <label for="em-bic">BIC <span class="opt">(optionnel)</span></label>
+                <input type="text" id="em-bic" placeholder="AGRIFRPP…">
+              </div>
+            </div>
+            <div class="switch-row">
+              <input type="checkbox" id="em-franchise" checked>
+              <label for="em-franchise">Franchise en base de TVA (cas général du micro-entrepreneur)
+                <span class="sub">Ajoute la mention obligatoire «&nbsp;TVA non applicable, art. 293&nbsp;B du CGI&nbsp;» et masque les colonnes de TVA.</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="h-client">
+            <div class="card-head">
+              <span class="stepnum" aria-hidden="true">2</span>
+              <h2 id="h-client">Votre client</h2>
+            </div>
+            <div class="grid2">
+              <div class="field span2">
+                <label for="cl-name">Nom / société</label>
+                <input type="text" id="cl-name" placeholder="ACME SARL">
+              </div>
+              <div class="field span2">
+                <label for="cl-address">Adresse</label>
+                <textarea id="cl-address" rows="2" placeholder="4 avenue de la République&#10;69002 Lyon"></textarea>
+              </div>
+              <div class="field">
+                <label for="cl-siret">SIRET du client <span class="opt">(si professionnel)</span></label>
+                <input type="text" id="cl-siret" inputmode="numeric" placeholder="987 654 321 00021">
+                <span class="field-warn" id="cl-siret-warn" role="status"></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="h-invoice">
+            <div class="card-head">
+              <span class="stepnum" aria-hidden="true">3</span>
+              <h2 id="h-invoice">La facture</h2>
+            </div>
+            <div class="grid3">
+              <div class="field">
+                <label for="inv-number">Numéro</label>
+                <input type="text" id="inv-number">
+              </div>
+              <div class="field">
+                <label for="inv-date">Date d'émission</label>
+                <input type="date" id="inv-date">
+              </div>
+              <div class="field">
+                <label for="inv-due">Date d'échéance</label>
+                <input type="date" id="inv-due">
+              </div>
+              <div class="field span2">
+                <label for="inv-payment">Mode de règlement</label>
+                <select id="inv-payment">
+                  <option>Virement bancaire</option>
+                  <option>Chèque</option>
+                  <option>Espèces</option>
+                  <option>Carte bancaire</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="h-lines">
+            <div class="card-head">
+              <span class="stepnum" aria-hidden="true">4</span>
+              <h2 id="h-lines">Prestations</h2>
+            </div>
+            <div class="lines-head" aria-hidden="true">
+              <span>Désignation</span><span>Qté</span><span>Unité</span><span>PU&nbsp;HT</span><span class="vat-col">TVA</span><span style="text-align:right">Total&nbsp;HT</span><span></span>
+            </div>
+            <div id="lines"></div>
+            <div class="lines-foot">
+              <button type="button" class="btn ghost sm" id="btn-add-line">+ Ajouter une ligne</button>
+              <div class="remise">
+                <label for="inv-discount">Remise globale&nbsp;%</label>
+                <input type="number" id="inv-discount" min="0" max="100" step="0.1" placeholder="0">
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="h-mentions">
+            <div class="card-head">
+              <span class="stepnum" aria-hidden="true">5</span>
+              <h2 id="h-mentions">Mentions de bas de facture</h2>
+              <span class="hint">modifiables librement</span>
+            </div>
+            <div class="field">
+              <label for="inv-mentions">Mentions légales et notes</label>
+              <textarea id="inv-mentions" rows="4"></textarea>
+            </div>
+          </section>
+        </form>
+
+        <aside class="card history-card" aria-labelledby="h-history">
+          <div class="card-head">
+            <span class="stepnum" aria-hidden="true">⌂</span>
+            <h2 id="h-history">Mes factures</h2>
+            <span class="hint">enregistrées sur cet appareil uniquement</span>
+          </div>
+          <ul class="history-list" id="history-list"></ul>
+          <p class="history-empty" id="history-empty">Les factures téléchargées apparaîtront ici.</p>
+        </aside>
+      </div>
+
+      <div class="preview-col">
+        <div class="preview-actions">
+          <button type="button" class="btn" id="btn-pdf">Télécharger le PDF</button>
+          <button type="button" class="btn ghost" id="btn-print">Imprimer</button>
+          <button type="button" class="btn ghost" id="btn-new">Nouvelle facture</button>
+        </div>
+        <div class="sheet-wrap">
+          <div class="sheet" id="invoice-sheet" aria-label="Aperçu de la facture" aria-live="polite"></div>
+        </div>
+        <p class="privacy-note"><strong>Confidentiel par construction&nbsp;:</strong> cette page n'envoie aucune donnée — la facture est fabriquée par votre navigateur.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <h2>Questions fréquentes</h2>
+      <div class="faq-list">
+        <details>
+          <summary>FactureLibre est-il vraiment gratuit&nbsp;?</summary>
+          <p>Oui. La création de factures, l'export PDF, la numérotation automatique et l'historique sont gratuits, sans inscription ni limite. Une offre <a href="pro.html">Pro</a> optionnelle financera le projet (personnalisation avancée, devis, récurrence).</p>
+        </details>
+        <details>
+          <summary>Mes données sont-elles envoyées sur un serveur&nbsp;?</summary>
+          <p>Non. L'outil fonctionne entièrement dans votre navigateur&nbsp;: vos informations et votre historique sont enregistrés localement sur votre appareil et ne sont jamais transmis. C'est aussi pour cela que l'outil peut rester gratuit&nbsp;: il n'y a pas de serveur à payer.</p>
+        </details>
+        <details>
+          <summary>La facture est-elle conforme pour un micro-entrepreneur&nbsp;?</summary>
+          <p>Les mentions obligatoires usuelles sont intégrées&nbsp;: identité des parties, SIRET, numérotation, dates, détail des prestations, «&nbsp;TVA non applicable, art. 293&nbsp;B du CGI&nbsp;» en franchise, pénalités de retard et indemnité de recouvrement de 40&nbsp;€. Consultez notre <a href="guides/mentions-obligatoires-facture.html">checklist des mentions obligatoires</a> — et pour les cas particuliers, un professionnel du chiffre. Cet outil ne constitue pas un conseil juridique.</p>
+        </details>
+        <details>
+          <summary>Et la facturation électronique obligatoire 2026-2027&nbsp;?</summary>
+          <p>La réforme concerne les échanges entre entreprises établies en France (B2B) et s'étale entre septembre 2026 et septembre 2027. Une facture PDF reste valable pour vos clients particuliers, et pour vos clients professionnels jusqu'aux échéances qui vous concernent. <a href="guides/facturation-electronique-2026.html">Notre guide fait le point</a>, sources officielles à l'appui.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="./">Facture<em>Libre</em><span class="dot">.</span></a>
+      <p>L'outil de facturation des micro-entrepreneurs&nbsp;: gratuit, sans inscription, et vos données ne quittent jamais votre navigateur.</p>
+    </div>
+    <div>
+      <h3>Ressources</h3>
+      <ul>
+        <li><a href="guides/mentions-obligatoires-facture.html">Mentions obligatoires</a></li>
+        <li><a href="guides/numerotation-factures.html">Numéroter ses factures</a></li>
+        <li><a href="guides/facturation-electronique-2026.html">Facturation électronique 2026</a></li>
+        <li><a href="pro.html">FactureLibre Pro</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Légal</h3>
+      <ul>
+        <li><a href="mentions-legales.html">Mentions légales</a></li>
+        <li><a href="confidentialite.html">Confidentialité</a></li>
+      </ul>
+    </div>
+    <p class="fineprint">FactureLibre fournit un outil et des informations générales, pas un conseil juridique, fiscal ou comptable.
+    En cas de doute sur votre situation, rapprochez-vous d'un expert-comptable ou des organismes officiels (impots.gouv.fr, urssaf.fr).</p>
+  </div>
+</footer>
+
+</body>
+</html>
