@@ -43,6 +43,10 @@ jobs:
           node tools/prepare-deploy.js
 
       - uses: actions/configure-pages@v5
+        with:
+          # Active GitHub Pages automatiquement au premier déploiement
+          # (évite l'étape manuelle Settings → Pages → Source).
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
