@@ -42,11 +42,10 @@ jobs:
           echo "URL de déploiement : $SITE_URL"
           node tools/prepare-deploy.js
 
+      # Prérequis one-shot : Pages activé avec la source « GitHub Actions »
+      # (Paramètres → Pages). L'activation par API exige des droits admin
+      # que le jeton du workflow n'a pas — c'est un clic humain, une seule fois.
       - uses: actions/configure-pages@v5
-        with:
-          # Active GitHub Pages automatiquement au premier déploiement
-          # (évite l'étape manuelle Settings → Pages → Source).
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:

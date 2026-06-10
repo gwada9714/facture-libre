@@ -10,28 +10,18 @@
 
 Le site est prêt à déployer. Il manque uniquement un compte GitHub authentifié.
 
-1. **Créer un compte GitHub** (ou utiliser un compte existant) : https://github.com/signup
-2. **Installer le CLI GitHub** :
-   ```powershell
-   winget install GitHub.cli
-   ```
-   (puis rouvrir le terminal)
-3. **S'authentifier** (ouvre le navigateur, suivre les instructions) :
-   ```powershell
-   gh auth login
-   ```
-4. **Créer le dépôt public et pousser** (depuis `C:\Users\Win10\Desktop\projet`) :
-   ```powershell
-   gh repo create facturelibre --public --source . --push
-   ```
-5. **Activer GitHub Pages** (source : GitHub Actions) — une seule commande :
-   ```powershell
-   gh api repos/{owner}/facturelibre/pages -X POST -f build_type=workflow
-   ```
-   (ou via l'interface : Settings → Pages → Source : « GitHub Actions », puis relancer le
-   workflow « Déploiement » dans l'onglet Actions)
-6. ✅ Le site est en ligne sur `https://<votre-pseudo>.github.io/facturelibre/` — le déploiement
-   est ensuite **automatique à chaque push**, plus aucune action humaine.
+1. ✅ ~~Créer un compte GitHub~~ — fait (compte `gwada9714`).
+2. ✅ ~~Créer le dépôt public~~ — fait le 2026-06-10 via l'interface web :
+   `https://github.com/gwada9714/facture-libre` (public, sans README initial).
+3. ✅ ~~Pousser le code~~ — fait (identifiants Windows déjà enregistrés, 6 commits poussés).
+4. ☐ **Activer GitHub Pages** (le seul clic restant) — via l'interface :
+   **Paramètres (Settings) → Pages → Build and deployment → Source : « GitHub Actions »**.
+   (L'activation par API exige des droits admin que les workflows n'ont pas — c'est
+   volontairement un geste humain unique.)
+5. ☐ Relancer le déploiement : onglet **Actions → workflow « Déploiement » → Re-run all jobs**
+   (ou attendre le prochain push : chaque push déclenche un déploiement).
+6. ✅ Le site sera en ligne sur `https://gwada9714.github.io/facture-libre/` — ensuite le
+   déploiement est **automatique à chaque push**, plus aucune action humaine.
 
 ## § B — Identité légale du site (requis avant promotion, ~5 min) 🟠
 

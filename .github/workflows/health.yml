@@ -43,15 +43,9 @@ jobs:
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body "Toujours injoignable au $when — ${{ steps.check.outputs.url }}"
           else
-            gh issue create --repo "$GITHUB_REPOSITORY" \
-              --title "🔴 Site injoignable (healthcheck)" \
-              --body "Le healthcheck n'a pas pu joindre ${{ steps.check.outputs.url }} ($when).
-
-Marche à suivre (voir RUNBOOK.md) :
-1. Vérifier https://www.githubstatus.com
-2. Vérifier Settings → Pages (source : GitHub Actions)
-3. Relancer le workflow « Déploiement » (onglet Actions)
-4. En dernier recours : git revert du dernier commit, puis push"
+            # printf : le corps multi-lignes doit rester indenté dans le bloc YAML
+            body=$(printf 'Le healthcheck ne joint pas %s (%s).\n\nMarche a suivre (voir RUNBOOK.md) :\n1. Verifier https://www.githubstatus.com\n2. Verifier Parametres -> Pages (source : GitHub Actions)\n3. Relancer le workflow Deploiement (onglet Actions)\n4. Dernier recours : git revert du dernier commit, puis push' "${{ steps.check.outputs.url }}" "$when")
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "🔴 Site injoignable (healthcheck)" --body "$body"
           fi
 
       - name: Résumé
