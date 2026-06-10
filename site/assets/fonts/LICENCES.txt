@@ -1,0 +1,9 @@
+Polices auto-hébergées (aucune requête vers un service tiers — voir politique de confidentialité).
+
+- Spectral — © Production Type. Licence SIL Open Font License 1.1.
+  https://github.com/productiontype/Spectral
+- Hanken Grotesk — © Hanken Design Co. Licence SIL Open Font License 1.1.
+  https://github.com/marcologous/hanken-grotesk
+
+Texte complet de la licence SIL OFL 1.1 : https://openfontlicense.org/open-font-license-official-text/
+Fichiers servis via le projet Fontsource (sous-ensemble latin, format woff2).

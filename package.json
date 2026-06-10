@@ -1,0 +1,15 @@
+{
+  "name": "facturelibre",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Générateur de factures conformes pour micro-entrepreneurs français — 100% client-side, gratuit, sans inscription.",
+  "scripts": {
+    "test": "node tools/test-calc.js",
+    "serve": "npx serve site",
+    "build:sitemap": "node tools/build-sitemap.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "jspdf": "^4.2.1"
+  }
+}
