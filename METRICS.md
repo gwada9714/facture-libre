@@ -12,7 +12,8 @@
 | Revenu brut cumulé | 0,00 € | Stripe non activé (HUMAN_SETUP § C) |
 | **Revenu net cumulé** | **0,00 €** | revenu brut − coûts |
 | Visiteurs uniques | non mesurable | Analytics non activé (HUMAN_SETUP § D) |
-| Pages indexées Google | 0 | Site non encore déployé (HUMAN_SETUP § A) |
+| Pages en ligne | 8 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
+| Pages indexées Google | 0 | Site mis en ligne le 2026-06-10, indexation en cours |
 | Conversions Pro | 0 | Offre non activée |
 | Unités produites | 1 outil + 3 guides + 8 pages | Dépôt git (mesure : sitemap) |
 | Incidents ouverts | 0 | GitHub Issues (label healthcheck) |
@@ -37,7 +38,7 @@
 
 | Date | Coûts cumulés | Revenu net cumulé | Visiteurs (30 j) | Notes |
 |---|---|---|---|---|
-| 2026-06-10 | 0,00 € | 0,00 € | — | Cycle 0 : construction du MVP, en attente HUMAN_SETUP § A |
+| 2026-06-10 | 0,00 € | 0,00 € | — | Cycle 0 : MVP construit ET mis en ligne (HUMAN_SETUP § A terminé). Prochain jalon : § C (Stripe) pour ouvrir le revenu |
 
 ## Limites free tier surveillées
 

@@ -62,7 +62,7 @@ RUNBOOK.md             Comment le système tourne seul, comment intervenir
 - [x] MVP fonctionnel (outil + PDF + historique)
 - [x] Pages légales + guides
 - [x] CI de déploiement (GitHub Pages) + healthcheck
-- [ ] Mise en ligne — **bloquée sur HUMAN_SETUP.md § A** (authentification GitHub)
+- [x] **Mise en ligne : https://gwada9714.github.io/facture-libre/** (2026-06-10)
 - [ ] Analytics (Cloudflare Web Analytics) — HUMAN_SETUP.md § D
 - [ ] Encaissement Pro (Stripe KYC) — HUMAN_SETUP.md § C
 

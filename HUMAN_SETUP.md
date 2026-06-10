@@ -14,14 +14,11 @@ Le site est prêt à déployer. Il manque uniquement un compte GitHub authentifi
 2. ✅ ~~Créer le dépôt public~~ — fait le 2026-06-10 via l'interface web :
    `https://github.com/gwada9714/facture-libre` (public, sans README initial).
 3. ✅ ~~Pousser le code~~ — fait (identifiants Windows déjà enregistrés, 6 commits poussés).
-4. ☐ **Activer GitHub Pages** (le seul clic restant) — via l'interface :
-   **Paramètres (Settings) → Pages → Build and deployment → Source : « GitHub Actions »**.
-   (L'activation par API exige des droits admin que les workflows n'ont pas — c'est
-   volontairement un geste humain unique.)
-5. ☐ Relancer le déploiement : onglet **Actions → workflow « Déploiement » → Re-run all jobs**
-   (ou attendre le prochain push : chaque push déclenche un déploiement).
-6. ✅ Le site sera en ligne sur `https://gwada9714.github.io/facture-libre/` — ensuite le
-   déploiement est **automatique à chaque push**, plus aucune action humaine.
+4. ✅ ~~Activer GitHub Pages~~ — fait le 2026-06-10 (source : GitHub Actions).
+5. ✅ ~~Relancer le déploiement~~ — fait (run n°3 : succès).
+6. ✅ **Le site est en ligne : https://gwada9714.github.io/facture-libre/** (vérifié HTTP 200,
+   sitemap 8 URLs). Le déploiement est désormais **automatique à chaque push**, plus aucune
+   action humaine nécessaire pour publier.
 
 ## § B — Identité légale du site (requis avant promotion, ~5 min) 🟠
 
@@ -65,7 +62,7 @@ La loi française (LCEN) impose d'identifier l'éditeur d'un site.
 
 | § | Action | Pourquoi humain ? | Statut |
 |---|---|---|---|
-| A | Compte GitHub + push + Pages | Propriété du compte, anti-bot | ☐ |
+| A | Compte GitHub + push + Pages | Propriété du compte, anti-bot | ✅ 2026-06-10 |
 | B | Mentions légales | Identité légale de l'éditeur (LCEN) | ☐ |
 | C | Stripe + KYC + Payment Link | Vérification d'identité financière (légal) | ☐ |
 | D | Cloudflare Analytics | Création de compte | ☐ |
