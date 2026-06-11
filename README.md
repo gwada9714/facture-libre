@@ -63,7 +63,7 @@ RUNBOOK.md             Comment le système tourne seul, comment intervenir
 - [x] Pages légales + guides
 - [x] CI de déploiement (GitHub Pages) + healthcheck
 - [x] **Mise en ligne : https://gwada9714.github.io/facture-libre/** (2026-06-10)
-- [ ] Analytics (Cloudflare Web Analytics) — HUMAN_SETUP.md § D
+- [x] Analytics sans cookie (Cloudflare Web Analytics) sur les 9 pages (2026-06-11)
 - [x] Encaissement Pro : lien Stripe actif sur la page Pro (2026-06-11)
 - [x] Mentions légales complétées (2026-06-11) — SIREN à ajouter dès communication
 

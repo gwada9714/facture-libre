@@ -21,8 +21,10 @@ window.FLConfig = {
   proPaymentLink: "https://buy.stripe.com/9B67sN75B1jYdo54j0e7m00",
   proPriceDisplay: "29 €/an",
 
-  /* HUMAN_SETUP § D — token Cloudflare Web Analytics (mesure sans cookie). */
-  cloudflareAnalyticsToken: "",
+  /*
+   * § D fait (2026-06-11) : la mesure d'audience Cloudflare Web Analytics (sans cookie)
+   * est intégrée statiquement dans chaque page HTML, avant </body>.
+   */
 
   /*
    * Empreintes SHA-256 des codes d'activation Pro valides (voir assets/pro.js).

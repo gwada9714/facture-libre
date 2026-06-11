@@ -606,17 +606,10 @@
     renderLogoUI();
   }
 
-  /* ----- Analytics (uniquement si activé via HUMAN_SETUP § D — sans cookie) ----- */
-
-  function maybeAnalytics() {
-    var cfg = window.FLConfig || {};
-    if (!cfg.cloudflareAnalyticsToken) return;
-    var s = document.createElement("script");
-    s.defer = true;
-    s.src = "https://static.cloudflareinsights.com/beacon.min.js";
-    s.setAttribute("data-cf-beacon", JSON.stringify({ token: cfg.cloudflareAnalyticsToken }));
-    document.head.appendChild(s);
-  }
+  /*
+   * Analytics : la balise Cloudflare Web Analytics (sans cookie) est intégrée
+   * statiquement dans chaque page HTML — voir HUMAN_SETUP § D. Rien à faire ici.
+   */
 
   /* ----- Démarrage ----- */
 
@@ -627,5 +620,4 @@
   renderLines();
   renderHistory();
   renderPreview();
-  maybeAnalytics();
 })();

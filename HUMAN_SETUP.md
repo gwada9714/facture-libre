@@ -62,12 +62,12 @@ Le site est prêt à déployer. Il manque uniquement un compte GitHub authentifi
 > coller l'URL du produit Gumroad dans `proPaymentLink` et le code d'activation dans le
 > message de confirmation Gumroad.
 
-## § D — Analytics sans cookies (recommandé, ~10 min) 🟡
+## § D — Analytics sans cookies ✅ FAIT le 2026-06-11
 
-1. **Créer un compte Cloudflare** (gratuit) : https://dash.cloudflare.com/sign-up
-2. Web Analytics → « Add a site » → renseigner l'URL GitHub Pages → copier le **token** du snippet.
-3. Coller le token dans `site/assets/config.js` → `cloudflareAnalyticsToken: "..."`.
-4. Commit + push. (Sans cookie : aucune bannière de consentement requise.)
+> Compte Cloudflare créé, site `gwada9714.github.io` déclaré dans Web Analytics.
+> La balise (token eb13f7…c6c1a) est intégrée statiquement dans les 9 pages HTML —
+> sans cookie, donc aucune bannière de consentement requise (voir confidentialite.html).
+> Tableau de bord : https://dash.cloudflare.com → Analytique → Analyse Web.
 
 ## § E — Optionnel (après premiers revenus uniquement)
 
@@ -85,7 +85,7 @@ Le site est prêt à déployer. Il manque uniquement un compte GitHub authentifi
 | A | Compte GitHub + push + Pages | Propriété du compte, anti-bot | ✅ 2026-06-10 |
 | B | Mentions légales | Identité légale de l'éditeur (LCEN) | ✅ 2026-06-11 (complet, SIREN inclus) |
 | C | Stripe + KYC + Payment Link | Vérification d'identité financière (légal) | ✅ 2026-06-11 |
-| D | Cloudflare Analytics | Création de compte | ☐ |
+| D | Cloudflare Analytics | Création de compte | ✅ 2026-06-11 |
 | E | Domaine / affiliations | Paiement + identité | ☐ |
 
 Une fois § A–D cochés, **plus aucune intervention humaine n'est nécessaire** : déploiement,
