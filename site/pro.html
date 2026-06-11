@@ -10,6 +10,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231c2b4a'/%3E%3Cpath d='M10 8h12v3H14v4h7v3h-7v6h-4z' fill='%23f6f1e6'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23bf3b1f'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/style.css">
   <script defer src="assets/config.js"></script>
+  <script defer src="assets/pro.js"></script>
 </head>
 <body>
 
@@ -46,12 +47,16 @@
       <div class="pro-col featured">
         <h2>Pro</h2>
         <div class="price"><span id="pro-price">29 €/an</span> <small>résiliable à tout moment</small></div>
+        <p style="margin:0 0 4px; font-size:.82rem; font-weight:700; color:var(--ink-2)">DISPONIBLE DÈS L'ACTIVATION</p>
         <ul>
           <li>Votre logo sur les factures PDF</li>
           <li>PDF sans la mention FactureLibre</li>
+          <li>Export CSV pour votre comptable</li>
+        </ul>
+        <p style="margin:14px 0 4px; font-size:.82rem; font-weight:700; color:var(--ink-2)">INCLUS, EN COURS DE DÉVELOPPEMENT</p>
+        <ul>
           <li>Devis, et conversion devis → facture</li>
           <li>Factures récurrentes (abonnements, mensualités)</li>
-          <li>Export CSV pour votre comptable</li>
           <li>Multi-profils émetteur</li>
         </ul>
         <p style="margin-top:18px">
@@ -59,6 +64,9 @@
           en attendant, tout l'outil est gratuit, profitez-en.</span>
           <a id="pro-buy" class="btn" href="#" style="display:none">Passer en Pro</a>
         </p>
+        <div id="pro-active" class="pro-banner" style="display:none">✓ FactureLibre Pro est actif sur ce navigateur. Merci de soutenir l'outil !</div>
+        <p style="margin-top:10px; font-size:.88rem">Déjà un code d'activation ?
+          <a href="#" id="btn-have-code">L'activer ici</a></p>
       </div>
     </div>
 
@@ -98,7 +106,8 @@
 </footer>
 
 <script>
-  // Active le bouton d'achat uniquement quand le lien de paiement existe (HUMAN_SETUP § C).
+  // Active le bouton d'achat uniquement quand le lien de paiement existe (HUMAN_SETUP § C),
+  // et reflète l'état Pro du navigateur (assets/pro.js).
   document.addEventListener("DOMContentLoaded", function () {
     var cfg = window.FLConfig || {};
     if (cfg.proPriceDisplay) document.getElementById("pro-price").textContent = cfg.proPriceDisplay;
@@ -107,6 +116,16 @@
       buy.href = cfg.proPaymentLink;
       buy.style.display = "";
       document.getElementById("pro-soon").style.display = "none";
+    }
+    document.getElementById("btn-have-code").addEventListener("click", function (e) {
+      e.preventDefault();
+      window.FLPro.promptActivate();
+    });
+    if (window.FLPro && window.FLPro.isPro()) {
+      document.getElementById("pro-active").style.display = "";
+      document.getElementById("pro-soon").style.display = "none";
+      var buyBtn = document.getElementById("pro-buy");
+      if (buyBtn) buyBtn.style.display = "none";
     }
   });
 </script>

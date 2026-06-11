@@ -293,6 +293,24 @@ table.inv-table { width: 100%; border-collapse: collapse; font-size: 0.9em; marg
 .inv-foot { margin-top: 18px; padding-top: 10px; border-top: 1px solid #eee9dd; font-size: 0.7em; color: #999; text-align: center; }
 .inv-empty { color: #999; font-style: italic; }
 
+/* ---- Pro : pastille, logo ---- */
+.chip-pro {
+  display: inline-block; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--red); border: 1px solid var(--red); border-radius: 999px;
+  padding: 1px 7px; vertical-align: 1px; text-decoration: none; margin-left: 6px;
+}
+a.chip-pro:hover { background: var(--red-soft); }
+.logo-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+#logo-preview {
+  height: 38px; max-width: 140px; object-fit: contain;
+  border: 1px solid var(--line); border-radius: 6px; background: #fff; padding: 2px 6px;
+}
+.inv-logo { display: block; max-height: 44px; max-width: 150px; object-fit: contain; margin-bottom: 8px; }
+.pro-banner {
+  background: var(--green-soft); border: 1px solid #cfe3d6; border-radius: 8px;
+  padding: 10px 14px; font-weight: 500; margin: 14px 0;
+}
+
 /* ---- Historique ---- */
 .history-list { list-style: none; margin: 0; padding: 0; }
 .history-list li {

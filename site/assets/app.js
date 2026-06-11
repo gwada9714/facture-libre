@@ -9,6 +9,8 @@
 
   var C = window.FLCalc;
   var $ = function (sel) { return document.querySelector(sel); };
+  /* Évalué au chargement : l'activation Pro recharge la page (pro.js). */
+  var IS_PRO = !!(window.FLPro && window.FLPro.isPro());
 
   var LS = {
     emitter: "fl.emitter.v1",
@@ -69,7 +71,7 @@
   function freshState() {
     var em = lsGet(LS.emitter, null) || {
       name: "", address: "", siret: "", email: "", phone: "",
-      iban: "", bic: "", vat: "", franchise: true
+      iban: "", bic: "", vat: "", franchise: true, logo: null
     };
     return {
       emitter: em,
@@ -241,6 +243,13 @@
     /* En-tête : émetteur + bloc méta */
     var head = el("div", "inv-head");
     var emBox = el("div", "inv-emitter");
+    if (IS_PRO && state.emitter.logo && state.emitter.logo.dataUrl) {
+      var logoImg = document.createElement("img");
+      logoImg.className = "inv-logo";
+      logoImg.src = state.emitter.logo.dataUrl;
+      logoImg.alt = "";
+      emBox.appendChild(logoImg);
+    }
     emBox.appendChild(el("div", "name", state.emitter.name || "Votre nom"));
     if (state.emitter.address) emBox.appendChild(el("div", null, state.emitter.address));
     if (state.emitter.siret) emBox.appendChild(el("div", null, "SIRET : " + state.emitter.siret));
@@ -346,8 +355,11 @@
     /* Mentions */
     if (state.mentions) sheet.appendChild(el("div", "inv-mentions", state.mentions));
 
-    var foot = el("div", "inv-foot", "Facture créée avec FactureLibre — générateur gratuit pour micro-entrepreneurs");
-    sheet.appendChild(foot);
+    /* La discrète ligne de promotion disparaît en Pro. */
+    if (!IS_PRO) {
+      var foot = el("div", "inv-foot", "Facture créée avec FactureLibre — générateur gratuit pour micro-entrepreneurs");
+      sheet.appendChild(foot);
+    }
   }
 
   function rowKV(k, v, cls) {
@@ -490,6 +502,110 @@
     });
   }
 
+  /* ----- Pro : logo, export CSV, activation ----- */
+
+  function handleLogoFile(file) {
+    if (!file) return;
+    if (!/^image\/(png|jpeg)$/.test(file.type)) {
+      $("#logo-warn").textContent = "Format accepté : PNG ou JPEG.";
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        /* Réduction à 600 px max : un logo en localStorage doit rester léger. */
+        var MAX = 600;
+        var scale = Math.min(1, MAX / img.width);
+        var canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        var isPng = file.type === "image/png";
+        state.emitter.logo = {
+          dataUrl: isPng ? canvas.toDataURL("image/png") : canvas.toDataURL("image/jpeg", 0.85),
+          w: canvas.width,
+          h: canvas.height
+        };
+        $("#logo-warn").textContent = "";
+        renderLogoUI();
+        update();
+      };
+      img.onerror = function () { $("#logo-warn").textContent = "Image illisible."; };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function renderLogoUI() {
+    var has = !!(state.emitter.logo && state.emitter.logo.dataUrl);
+    var prev = $("#logo-preview"), clear = $("#btn-logo-clear");
+    if (!prev) return;
+    prev.hidden = !has;
+    clear.hidden = !has;
+    if (has) prev.src = state.emitter.logo.dataUrl;
+  }
+
+  function exportCSV() {
+    if (!IS_PRO) {
+      if (confirm("L'export CSV pour la comptabilité fait partie de FactureLibre Pro. Voir l'offre ?")) {
+        location.href = "pro.html";
+      }
+      return;
+    }
+    var hist = getHistory();
+    if (!hist.length) { alert("Aucune facture dans l'historique à exporter."); return; }
+    var sep = ";";
+    function num(x) { return x.toFixed(2).replace(".", ","); }
+    function field(s) { s = String(s == null ? "" : s); return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+    var lines = [["Numero", "Date", "Client", "Total HT", "TVA", "Total TTC"].join(sep)];
+    hist.slice().reverse().forEach(function (h) {
+      var t = C.computeTotals(h.state.lines, { discountPct: h.state.discountPct, franchise: h.state.emitter.franchise });
+      lines.push([field(h.number), C.formatDateFR(h.date), field(h.client), num(t.totalHT), num(t.totalTVA), num(t.totalTTC)].join(sep));
+    });
+    /* BOM UTF-8 : Excel français ouvre le fichier avec les accents corrects. */
+    var blob = new Blob([String.fromCharCode(0xFEFF) + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "factures-" + todayISO() + ".csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  function initProUI() {
+    var logoInput = $("#em-logo");
+    if (logoInput) {
+      if (IS_PRO) {
+        logoInput.addEventListener("change", function () { handleLogoFile(this.files[0]); this.value = ""; });
+        $("#btn-logo-clear").addEventListener("click", function () {
+          state.emitter.logo = null;
+          renderLogoUI();
+          update();
+        });
+      } else {
+        logoInput.disabled = true;
+        $("#logo-warn").textContent = "Fonctionnalité Pro — disponible après activation.";
+      }
+    }
+    var csv = $("#btn-csv");
+    if (csv) csv.addEventListener("click", exportCSV);
+    var act = $("#link-pro-activate");
+    if (act) {
+      if (IS_PRO) {
+        act.textContent = "Pro actif ✓";
+        act.addEventListener("click", function (e) { e.preventDefault(); });
+      } else {
+        act.addEventListener("click", function (e) {
+          e.preventDefault();
+          window.FLPro.promptActivate();
+        });
+      }
+    }
+    renderLogoUI();
+  }
+
   /* ----- Analytics (uniquement si activé via HUMAN_SETUP § D — sans cookie) ----- */
 
   function maybeAnalytics() {
@@ -507,6 +623,7 @@
   hydrateInputs();
   bindInputs();
   bindActions();
+  initProUI();
   renderLines();
   renderHistory();
   renderPreview();

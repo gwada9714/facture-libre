@@ -83,6 +83,20 @@ l'information honnêtement dans l'outil ; (3) réévaluer à chaque cycle — pi
 l'outil qui aide les micro-entrepreneurs à passer à la facturation électronique » (comparateur de PDP = affiliation).
 **Garde-fou** : toujours renvoyer vers impots.gouv.fr pour les dates officielles, ne jamais affirmer un calendrier figé.
 
+## D-010 — 2026-06-11 — Pro v1 : activation par code partagé (système déclaratif assumé)
+
+**Contexte** : encaisser sans backend (contrainte 0 €) impose un mécanisme de déblocage sans
+vérification serveur. **Décision** : code d'activation communiqué sur la page de confirmation
+Stripe ; le navigateur compare le SHA-256 du code saisi aux empreintes publiées dans config.js
+(le code en clair n'apparaît jamais dans le dépôt public, ni dans les commits).
+**Trade-off accepté** : un code peut être partagé entre utilisateurs (honor system). À ce stade,
+le coût d'un resquilleur est nul (pas de serveur) et le risque réel est faible ; la lutte
+anti-partage coûterait plus qu'elle ne rapporte. **Critère de remplacement** : au premier signe
+de partage massif ou à partir de ~20 clients payants, basculer vers des licences individuelles
+vérifiées par un Cloudflare Worker (free tier) + clé secrète Stripe. **Pré-requis d'honnêteté** :
+Pro v1 livre des fonctionnalités réelles dès l'activation (logo sur PDF, PDF sans mention,
+export CSV comptable) ; la page Pro distingue explicitement « disponible » et « en développement ».
+
 ## D-009 — 2026-06-10 — Ce qui est volontairement reporté
 
 - Collecte d'emails (backend requis) → après premières métriques.

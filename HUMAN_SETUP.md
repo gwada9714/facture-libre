@@ -31,16 +31,34 @@ La loi française (LCEN) impose d'identifier l'éditeur d'un site.
 
 ## § C — Encaissement (requis avant le 1er euro, ~20 min + délai KYC) 🟠
 
-1. **Créer un compte Stripe** : https://dashboard.stripe.com/register — KYC : pièce d'identité,
-   IBAN, statut (micro-entrepreneur accepté).
-2. Dans Stripe : **Catalogue produits → Ajouter un produit** :
-   - Nom : « FactureLibre Pro » — Prix : 29 €/an (récurrent annuel) *(prix modifiable dans `config.js`)*
-3. **Créer un Payment Link** pour ce produit (bouton « Créer un lien de paiement »).
-4. Coller l'URL dans `site/assets/config.js` → `proPaymentLink: "https://buy.stripe.com/..."`.
-5. Commit + push. La page Pro active automatiquement le bouton de paiement.
+> Pré-requis technique : **fait** — l'offre Pro v1 est livrée (logo sur PDF, PDF sans mention,
+> export CSV) et l'activation par code fonctionne. On ne vend rien qui n'existe pas.
 
-> Alternative sans Stripe : Gumroad (KYC plus léger, commission ~10 %) — coller l'URL du produit
-> Gumroad dans le même champ `proPaymentLink`.
+1. **Créer un compte Stripe** : https://dashboard.stripe.com/register (email + mot de passe).
+2. **Activer le compte** (bouton « Activer les paiements ») — Stripe demandera :
+   - type d'activité : *Entreprise individuelle* (le statut micro-entrepreneur est accepté) ;
+   - votre SIRET, identité, date de naissance, adresse, téléphone ;
+   - le site web de l'activité : `https://gwada9714.github.io/facture-libre/` ;
+   - votre **IBAN** (pour recevoir les virements) ;
+   - éventuellement une pièce d'identité (la vérification peut prendre de quelques minutes à 48 h).
+   ⚠️ Stripe peut exiger que le site identifie son exploitant → si la validation bloque, faire le § B d'abord.
+3. ⚠️ **Vérifier que le « mode test » est désactivé** (interrupteur en haut du dashboard) avant la suite.
+4. **Créer le produit** : Catalogue de produits → « + Ajouter un produit » :
+   - Nom : `FactureLibre Pro` — Tarif : `29,00 €`, **récurrent**, périodicité **annuelle**.
+5. **Créer le lien de paiement** : Paiements → Liens de paiement → « + Nouveau » → choisir le produit.
+   Dans les options « Après le paiement » → **Afficher une page de confirmation** → coller le
+   **message de confirmation** suivant (le code d'activation vous a été transmis en privé par
+   l'agent — ne JAMAIS l'écrire dans ce dépôt, qui est public) :
+   > Merci de soutenir FactureLibre ! Votre code d'activation : **FLPRO-XXXX-XXXX** —
+   > ouvrez https://gwada9714.github.io/facture-libre/pro.html, cliquez « L'activer ici »
+   > et saisissez ce code. Gardez ce code : il fonctionne sur tous vos navigateurs.
+6. Copier l'URL du lien (`https://buy.stripe.com/...`) et **la donner à l'agent** (ou la coller
+   soi-même dans `site/assets/config.js` → `proPaymentLink`), puis commit + push.
+   La page Pro affichera automatiquement le bouton « Passer en Pro ».
+
+> Alternative sans Stripe : Gumroad (KYC plus léger, commission ~10 %) — même principe,
+> coller l'URL du produit Gumroad dans `proPaymentLink` et le code d'activation dans le
+> message de confirmation Gumroad.
 
 ## § D — Analytics sans cookies (recommandé, ~10 min) 🟡
 

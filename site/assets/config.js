@@ -22,5 +22,15 @@ window.FLConfig = {
   proPriceDisplay: "29 €/an",
 
   /* HUMAN_SETUP § D — token Cloudflare Web Analytics (mesure sans cookie). */
-  cloudflareAnalyticsToken: ""
+  cloudflareAnalyticsToken: "",
+
+  /*
+   * Empreintes SHA-256 des codes d'activation Pro valides (voir assets/pro.js).
+   * IMPORTANT — dépôt public : ne JAMAIS écrire un code en clair ici ni ailleurs
+   * dans le dépôt. Le code est communiqué à l'acheteur par la page de
+   * confirmation du paiement (HUMAN_SETUP § C).
+   */
+  proCodeHashes: [
+    "5069503aedac8fb62a8a3bc6243b697f38b8e21c25fd0476d2c22123f3f712db"
+  ]
 };

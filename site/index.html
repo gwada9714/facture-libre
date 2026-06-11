@@ -54,6 +54,7 @@
   }
   </script>
   <script defer src="assets/config.js"></script>
+  <script defer src="assets/pro.js"></script>
   <script defer src="assets/calc.js"></script>
   <script defer src="assets/vendor/jspdf.umd.min.js"></script>
   <script defer src="assets/pdf.js"></script>
@@ -132,6 +133,15 @@
               <div class="field">
                 <label for="em-bic">BIC <span class="opt">(optionnel)</span></label>
                 <input type="text" id="em-bic" placeholder="AGRIFRPP…">
+              </div>
+              <div class="field span2">
+                <label for="em-logo">Votre logo sur la facture <a class="chip-pro" href="pro.html">Pro</a></label>
+                <div class="logo-row">
+                  <input type="file" id="em-logo" accept="image/png,image/jpeg">
+                  <img id="logo-preview" alt="Aperçu du logo" hidden>
+                  <button type="button" class="btn ghost sm" id="btn-logo-clear" hidden>Retirer</button>
+                </div>
+                <span class="field-warn" id="logo-warn" role="status"></span>
               </div>
             </div>
             <div class="switch-row">
@@ -234,6 +244,9 @@
           </div>
           <ul class="history-list" id="history-list"></ul>
           <p class="history-empty" id="history-empty">Les factures téléchargées apparaîtront ici.</p>
+          <p style="margin:12px 0 0">
+            <button type="button" class="btn ghost sm" id="btn-csv">Exporter en CSV pour la compta <span class="chip-pro">Pro</span></button>
+          </p>
         </aside>
       </div>
 
@@ -297,6 +310,7 @@
       <ul>
         <li><a href="mentions-legales.html">Mentions légales</a></li>
         <li><a href="confidentialite.html">Confidentialité</a></li>
+        <li><a href="#" id="link-pro-activate">Activer un code Pro</a></li>
       </ul>
     </div>
     <p class="fineprint">FactureLibre fournit un outil et des informations générales, pas un conseil juridique, fiscal ou comptable.

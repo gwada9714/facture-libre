@@ -28,6 +28,7 @@
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF({ unit: "mm", format: "a4" });
     var franchise = !!state.emitter.franchise;
+    var pro = !!(window.FLPro && window.FLPro.isPro());
     var y;
 
     function text(str, x, yy, opts) { doc.text(String(str), x, yy, opts || {}); }
@@ -40,6 +41,15 @@
 
     /* ---- En-tête : émetteur (gauche) + titre et méta (droite) ---- */
     var yL = 22;
+    if (pro && state.emitter.logo && state.emitter.logo.dataUrl) {
+      var lg = state.emitter.logo;
+      var ratio = (lg.w && lg.h) ? lg.w / lg.h : 1;
+      var hMM = 16, wMM = hMM * ratio;
+      if (wMM > 48) { wMM = 48; hMM = wMM / ratio; }
+      var fmt = lg.dataUrl.indexOf("image/png") !== -1 ? "PNG" : "JPEG";
+      doc.addImage(lg.dataUrl, fmt, MARGIN, 14, wMM, hMM);
+      yL = 14 + hMM + 8;
+    }
     setFont(13, "bold", INK);
     text(state.emitter.name || "", MARGIN, yL); yL += 6;
     setFont(9, "normal", [60, 60, 60]);
@@ -213,7 +223,8 @@
     for (var p = 1; p <= pages; p++) {
       doc.setPage(p);
       setFont(7, "normal", [153, 153, 153]);
-      text("Facture créée avec FactureLibre — générateur gratuit pour micro-entrepreneurs", PAGE_W / 2, 290, { align: "center" });
+      /* La ligne de promotion disparaît en Pro ; la pagination reste. */
+      if (!pro) text("Facture créée avec FactureLibre — générateur gratuit pour micro-entrepreneurs", PAGE_W / 2, 290, { align: "center" });
       if (pages > 1) text("page " + p + "/" + pages, RIGHT, 290, { align: "right" });
     }
 
