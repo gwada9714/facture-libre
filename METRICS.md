@@ -9,7 +9,7 @@
 | Métrique | Valeur | Source de mesure |
 |---|---|---|
 | **Coûts cumulés** | **0,00 €** | Aucun service payant utilisé (vérifié) |
-| Revenu brut cumulé | 0,00 € | Stripe non activé (HUMAN_SETUP § C) |
+| Revenu brut cumulé | 0,00 € | Dashboard Stripe (lien de paiement actif depuis le 2026-06-11) |
 | **Revenu net cumulé** | **0,00 €** | revenu brut − coûts |
 | Visiteurs uniques | non mesurable | Analytics non activé (HUMAN_SETUP § D) |
 | Pages en ligne | 8 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
@@ -38,7 +38,8 @@
 
 | Date | Coûts cumulés | Revenu net cumulé | Visiteurs (30 j) | Notes |
 |---|---|---|---|---|
-| 2026-06-10 | 0,00 € | 0,00 € | — | Cycle 0 : MVP construit ET mis en ligne (HUMAN_SETUP § A terminé). Prochain jalon : § C (Stripe) pour ouvrir le revenu |
+| 2026-06-10 | 0,00 € | 0,00 € | — | Cycle 0 : MVP construit ET mis en ligne (HUMAN_SETUP § A terminé) |
+| 2026-06-11 | 0,00 € | 0,00 € | — | Pro v1 livré + **rail de paiement ouvert** (Stripe actif, bouton Pro en ligne). Reste : § B mentions légales, § D analytics, distribution |
 
 ## Limites free tier surveillées
 

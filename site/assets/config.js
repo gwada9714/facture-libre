@@ -18,7 +18,7 @@ window.FLConfig = {
    * ── Décision produit : le prix (proPriceDisplay) est un choix humain
    *    légitime — 29 €/an est la valeur par défaut recommandée (voir DECISIONS.md D-005).
    */
-  proPaymentLink: "",
+  proPaymentLink: "https://buy.stripe.com/9B67sN75B1jYdo54j0e7m00",
   proPriceDisplay: "29 €/an",
 
   /* HUMAN_SETUP § D — token Cloudflare Web Analytics (mesure sans cookie). */

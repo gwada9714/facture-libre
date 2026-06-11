@@ -29,7 +29,11 @@ La loi française (LCEN) impose d'identifier l'éditeur d'un site.
 2. Ouvrir `site/assets/config.js` et renseigner `contactEmail`.
 3. Commit + push (le déploiement est automatique).
 
-## § C — Encaissement (requis avant le 1er euro, ~20 min + délai KYC) 🟠
+## § C — Encaissement ✅ FAIT le 2026-06-11
+
+> Compte Stripe activé (auto-entrepreneur), produit « FactureLibre Pro » 29 €/an créé,
+> Payment Link branché dans config.js avec le code d'activation sur la page de confirmation.
+> Les étapes ci-dessous sont conservées pour référence (rotation du lien, changement de prix).
 
 > Pré-requis technique : **fait** — l'offre Pro v1 est livrée (logo sur PDF, PDF sans mention,
 > export CSV) et l'activation par code fonctionne. On ne vend rien qui n'existe pas.
@@ -82,7 +86,7 @@ La loi française (LCEN) impose d'identifier l'éditeur d'un site.
 |---|---|---|---|
 | A | Compte GitHub + push + Pages | Propriété du compte, anti-bot | ✅ 2026-06-10 |
 | B | Mentions légales | Identité légale de l'éditeur (LCEN) | ☐ |
-| C | Stripe + KYC + Payment Link | Vérification d'identité financière (légal) | ☐ |
+| C | Stripe + KYC + Payment Link | Vérification d'identité financière (légal) | ✅ 2026-06-11 |
 | D | Cloudflare Analytics | Création de compte | ☐ |
 | E | Domaine / affiliations | Paiement + identité | ☐ |
 
