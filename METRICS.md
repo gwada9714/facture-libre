@@ -4,14 +4,14 @@
 > ne les couvre pas (DECISIONS.md D-009). Aucune métrique n'est estimée ou « projetée » : seules les
 > valeurs mesurées sont inscrites ici.
 
-## État au 2026-06-10 (cycle 0 — construction)
+## État au 2026-06-11 (cycle 0 — construction terminée, phase distribution ouverte)
 
 | Métrique | Valeur | Source de mesure |
 |---|---|---|
 | **Coûts cumulés** | **0,00 €** | Aucun service payant utilisé (vérifié) |
 | Revenu brut cumulé | 0,00 € | Dashboard Stripe (lien de paiement actif depuis le 2026-06-11) |
 | **Revenu net cumulé** | **0,00 €** | revenu brut − coûts |
-| Visiteurs uniques | non mesurable | Analytics non activé (HUMAN_SETUP § D) |
+| Visiteurs uniques | mesuré (voir dashboard) | Cloudflare Web Analytics, sans cookie — actif sur les 9 pages depuis le 2026-06-11 |
 | Pages en ligne | 8 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
 | Pages indexées Google | 0 | Site mis en ligne le 2026-06-10, indexation en cours |
 | Conversions Pro | 0 | Offre non activée |
@@ -40,6 +40,7 @@
 |---|---|---|---|---|
 | 2026-06-10 | 0,00 € | 0,00 € | — | Cycle 0 : MVP construit ET mis en ligne (HUMAN_SETUP § A terminé) |
 | 2026-06-11 | 0,00 € | 0,00 € | — | Pro v1 livré + **rail de paiement ouvert** (Stripe actif, bouton Pro en ligne). Reste : § B mentions légales, § D analytics, distribution |
+| 2026-06-11 (soir) | 0,00 € | 0,00 € | — | **HUMAN_SETUP 100 % soldé** (§ B mentions légales + SIREN, § D analytics 9 pages). IndexNow automatisé à chaque déploiement. Kit de distribution publié (DISTRIBUTION.md) — prochaine action humaine prioritaire : Search Console (P1) |
 
 ## Limites free tier surveillées
 
