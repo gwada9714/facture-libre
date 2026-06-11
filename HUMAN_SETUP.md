@@ -23,9 +23,9 @@ Le site est prêt à déployer. Il manque uniquement un compte GitHub authentifi
 ## § B — Identité légale du site ✅ FAIT le 2026-06-11
 
 > Éditeur publié dans `site/mentions-legales.html` (identité fournie via le parcours Stripe,
-> avec l'accord de l'intéressé) : nom, adresse, téléphone, email — conformément à la LCEN
-> (éditeur professionnel personne physique). `contactEmail` renseigné dans config.js.
-> **Reste un détail** : ajouter le **SIREN** dès qu'il est communiqué (obligatoire si immatriculé).
+> avec l'accord de l'intéressé) : nom, adresse, SIREN 950 730 242, téléphone, email —
+> conformément à la LCEN (éditeur professionnel personne physique). `contactEmail` dans config.js.
+> Immatriculation vérifiée (avis SIRENE, EI actif depuis 03/2023, SIRET validé par clé de Luhn).
 
 ## § C — Encaissement ✅ FAIT le 2026-06-11
 
@@ -83,7 +83,7 @@ Le site est prêt à déployer. Il manque uniquement un compte GitHub authentifi
 | § | Action | Pourquoi humain ? | Statut |
 |---|---|---|---|
 | A | Compte GitHub + push + Pages | Propriété du compte, anti-bot | ✅ 2026-06-10 |
-| B | Mentions légales | Identité légale de l'éditeur (LCEN) | ✅ 2026-06-11 (SIREN à ajouter) |
+| B | Mentions légales | Identité légale de l'éditeur (LCEN) | ✅ 2026-06-11 (complet, SIREN inclus) |
 | C | Stripe + KYC + Payment Link | Vérification d'identité financière (légal) | ✅ 2026-06-11 |
 | D | Cloudflare Analytics | Création de compte | ☐ |
 | E | Domaine / affiliations | Paiement + identité | ☐ |
