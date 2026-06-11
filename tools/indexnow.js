@@ -25,7 +25,7 @@ const urls = [];
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) { walk(p); continue; }
-    if (path.extname(e.name) !== ".html" || e.name === "404.html") continue;
+    if (path.extname(e.name) !== ".html" || e.name === "404.html" || /^google[0-9a-f]+\.html$/.test(e.name)) continue;
     let rel = path.relative(ROOT, p).split(path.sep).join("/");
     if (rel.endsWith("index.html")) rel = rel.slice(0, -"index.html".length);
     urls.push(SITE + rel);

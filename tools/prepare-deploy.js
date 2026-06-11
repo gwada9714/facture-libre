@@ -36,7 +36,9 @@ const pages = [];
       fs.writeFileSync(p, content);
       tokensReplaced += hits;
     }
-    if (ext === ".html" && entry.name !== "404.html") {
+    /* Le fichier de vérification Google n'est pas une page : ni sitemap, ni canonical. */
+    const isGoogleVerif = /^google[0-9a-f]+\.html$/.test(entry.name);
+    if (ext === ".html" && entry.name !== "404.html" && !isGoogleVerif) {
       let rel = path.relative(ROOT, p).split(path.sep).join("/");
       if (rel.endsWith("index.html")) rel = rel.slice(0, -"index.html".length);
       pages.push(rel);
