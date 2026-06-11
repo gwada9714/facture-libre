@@ -20,14 +20,12 @@ Le site est prêt à déployer. Il manque uniquement un compte GitHub authentifi
    sitemap 8 URLs). Le déploiement est désormais **automatique à chaque push**, plus aucune
    action humaine nécessaire pour publier.
 
-## § B — Identité légale du site (requis avant promotion, ~5 min) 🟠
+## § B — Identité légale du site ✅ FAIT le 2026-06-11
 
-La loi française (LCEN) impose d'identifier l'éditeur d'un site.
-
-1. Ouvrir `site/mentions-legales.html` et remplacer les champs `[À COMPLÉTER]` :
-   nom/prénom (ou raison sociale), SIREN le cas échéant, email de contact.
-2. Ouvrir `site/assets/config.js` et renseigner `contactEmail`.
-3. Commit + push (le déploiement est automatique).
+> Éditeur publié dans `site/mentions-legales.html` (identité fournie via le parcours Stripe,
+> avec l'accord de l'intéressé) : nom, adresse, téléphone, email — conformément à la LCEN
+> (éditeur professionnel personne physique). `contactEmail` renseigné dans config.js.
+> **Reste un détail** : ajouter le **SIREN** dès qu'il est communiqué (obligatoire si immatriculé).
 
 ## § C — Encaissement ✅ FAIT le 2026-06-11
 
@@ -85,7 +83,7 @@ La loi française (LCEN) impose d'identifier l'éditeur d'un site.
 | § | Action | Pourquoi humain ? | Statut |
 |---|---|---|---|
 | A | Compte GitHub + push + Pages | Propriété du compte, anti-bot | ✅ 2026-06-10 |
-| B | Mentions légales | Identité légale de l'éditeur (LCEN) | ☐ |
+| B | Mentions légales | Identité légale de l'éditeur (LCEN) | ✅ 2026-06-11 (SIREN à ajouter) |
 | C | Stripe + KYC + Payment Link | Vérification d'identité financière (légal) | ✅ 2026-06-11 |
 | D | Cloudflare Analytics | Création de compte | ☐ |
 | E | Domaine / affiliations | Paiement + identité | ☐ |

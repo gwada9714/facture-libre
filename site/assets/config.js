@@ -8,8 +8,8 @@ window.FLConfig = {
   /* Injecté automatiquement au déploiement par tools/prepare-deploy.js */
   baseUrl: "__SITE_URL__",
 
-  /* HUMAN_SETUP § B — email de contact affiché dans le pied de page et les pages légales. */
-  contactEmail: "",
+  /* HUMAN_SETUP § B — email de contact affiché dans les pages légales. */
+  contactEmail: "gouedard.s@gmail.com",
 
   /*
    * HUMAN_SETUP § C — lien de paiement (Stripe Payment Link ou Gumroad).
