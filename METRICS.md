@@ -12,10 +12,10 @@
 | Revenu brut cumulé | 0,00 € | Dashboard Stripe (lien de paiement actif depuis le 2026-06-11) |
 | **Revenu net cumulé** | **0,00 €** | revenu brut − coûts |
 | Visiteurs uniques | mesuré (voir dashboard) | Cloudflare Web Analytics, sans cookie — actif sur les 9 pages depuis le 2026-06-11 |
-| Pages en ligne | 8 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
+| Pages en ligne | 9 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
 | Pages indexées Google | 0 | Site mis en ligne le 2026-06-10, indexation en cours |
 | Conversions Pro | 0 | Offre non activée |
-| Unités produites | 1 outil + 3 guides + 8 pages | Dépôt git (mesure : sitemap) |
+| Unités produites | 1 outil (+ Pro) + 4 guides + 9 pages | Dépôt git (mesure : sitemap) |
 | Incidents ouverts | 0 | GitHub Issues (label healthcheck) |
 
 ## Définitions
@@ -41,6 +41,7 @@
 | 2026-06-10 | 0,00 € | 0,00 € | — | Cycle 0 : MVP construit ET mis en ligne (HUMAN_SETUP § A terminé) |
 | 2026-06-11 | 0,00 € | 0,00 € | — | Pro v1 livré + **rail de paiement ouvert** (Stripe actif, bouton Pro en ligne). Reste : § B mentions légales, § D analytics, distribution |
 | 2026-06-11 (soir) | 0,00 € | 0,00 € | — | **HUMAN_SETUP 100 % soldé** (§ B mentions légales + SIREN, § D analytics 9 pages). IndexNow automatisé à chaque déploiement. Kit de distribution publié (DISTRIBUTION.md) — prochaine action humaine prioritaire : Search Console (P1) |
+| 2026-06-12 | 0,00 € | 0,00 € | à lire (dashboard CF) | **Cycle 1** : système 100 % vert (healthcheck réel OK, 0 incident, paiement OK). 4e guide publié (facture d'avoir) + maillage interne. Collision de nom consignée (D-011). Indexation pas encore visible (J+2 : normal). Backlog produit : gestion native des avoirs |
 
 ## Limites free tier surveillées
 

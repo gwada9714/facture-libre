@@ -104,3 +104,14 @@ export CSV comptable) ; la page Pro distingue explicitement « disponible » et 
 - Domaine personnalisé (~10 €/an) → financé par le premier revenu réel, jamais avant (contrainte 0 €).
 - Affiliation banques pro → nécessite trafic démontrable pour candidater.
 - Vérification du nom « FactureLibre » (antériorité/marque) → à faire avant tout achat de domaine.
+
+## D-011 — 2026-06-12 — Collision de nom : « facturelibre » existe déjà sur GitHub
+
+**Contexte** : la sonde d'indexation du cycle 1 révèle vartur/facturelibre (bibliothèque Python
+Factur-X pour micro-entrepreneurs) et un écosystème « facturation libre » dense (factux, akretion).
+**Analyse** : surfaces différentes (lib pour développeurs vs outil web grand public), aucune marque
+déposée apparente, risque juridique faible à ce stade — mais concurrence possible sur la requête de
+marque et confusion d'écosystème.
+**Décision** : (1) ne pas renommer à chaud ; (2) AVANT tout achat de domaine ou campagne P4
+(Product Hunt / Show HN), trancher : vérification INPI puis cohabitation assumée OU renommage
+(coût encore faible : < 2 h aujourd'hui, bien plus cher après) ; (3) réévaluer à chaque cycle.
