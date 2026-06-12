@@ -30,6 +30,9 @@ jobs:
       - name: Tests du moteur de calcul
         run: node tools/test-calc.js
 
+      - name: Validation des données structurées (JSON-LD)
+        run: node tools/check-jsonld.js
+
       - name: Injecter l'URL du site et générer le sitemap
         env:
           # La variable de dépôt SITE_URL (Settings → Secrets and variables → Actions → Variables)
