@@ -7,3 +7,8 @@ site/sitemap.xml
 Thumbs.db
 .env
 .env.*
+
+# Secrets / jetons — ne JAMAIS committer (dépôt public)
+token.txt
+*.token
+*secret*

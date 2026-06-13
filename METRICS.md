@@ -15,7 +15,7 @@
 | Pages en ligne | 9 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
 | Pages indexées Google | ≥ 4 confirmées (2026-06-13) | GSC : accueil + 2 guides + pro « sur Google / indexée » ; rich results FAQ + fil d'Ariane détectés |
 | Conversions Pro | 0 | Offre non activée |
-| Unités produites | 1 outil (+ Pro) + 4 guides + 9 pages | Dépôt git (mesure : sitemap) |
+| Unités produites | 1 outil (+ Pro) + 5 guides + 10 pages | Dépôt git (mesure : sitemap) |
 | Incidents ouverts | 0 | GitHub Issues (label healthcheck) |
 
 ## Définitions
@@ -45,6 +45,7 @@
 | 2026-06-12 | 0,00 € | 0,00 € | à lire (dashboard CF) | **Cycle 1** : système 100 % vert (healthcheck réel OK, 0 incident, paiement OK). 4e guide publié (facture d'avoir) + maillage interne. Collision de nom consignée (D-011). Indexation pas encore visible (J+2 : normal). Backlog produit : gestion native des avoirs |
 | 2026-06-13 | 0,00 € | 0,00 € | à lire (dashboard CF) | **Cycle 2** : gestion native des avoirs livrée (D-012) — type Facture/Avoir, séries AV-, action « Avoir » depuis l'historique, PDF dédié, CSV comptable signé. Vérifiée de bout en bout. Le guide d'avoir pointe désormais une fonctionnalité réelle |
 | 2026-06-13 | 0,00 € | 0,00 € | à lire (dashboard CF) | **Jalon indexation** : Google a indexé l'accueil + 2 guides + pro (vérifié GSC), rich results FAQ + fil d'Ariane détectés. Sitemap encore en « Impossible de récupérer » = latence GSC nouvelle propriété, NON bloquant (serveur 200/xml re-vérifié). Le flywheel SEO a démarré |
+| 2026-06-13 | 0,00 € | 0,00 € | 0 externe | **Cycle 3** : système vert, 0 issue. Trafic lu en autonomie (`cf-analytics.js`) : 20 pages vues, mais référents = interne (test) + direct/US (≈ Googlebot/rendu GSC) → toujours 0 humain externe, pas de `linkedin.com`. Action SEO : 5e guide « première facture auto-entrepreneur » (forte intention) + maillage. En attente : post LinkedIn + AlternativeTo (lundi) |
 
 ## Limites free tier surveillées
 
