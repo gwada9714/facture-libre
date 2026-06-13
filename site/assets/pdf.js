@@ -29,6 +29,7 @@
     var doc = new jsPDF({ unit: "mm", format: "a4" });
     var franchise = !!state.emitter.franchise;
     var pro = !!(window.FLPro && window.FLPro.isPro());
+    var avoir = !!(state.invoice && state.invoice.docType === "avoir");
     var y;
 
     function text(str, x, yy, opts) { doc.text(String(str), x, yy, opts || {}); }
@@ -58,17 +59,31 @@
     });
 
     var yR = 24;
-    setFont(21, "bold", INK);
-    text("FACTURE", RIGHT, yR, { align: "right" }); yR += 8;
+    setFont(21, "bold", avoir ? RED : INK);
+    text(avoir ? "AVOIR" : "FACTURE", RIGHT, yR, { align: "right" }); yR += 8;
     setFont(9, "normal", [60, 60, 60]);
-    [["N° ", state.invoice.number || "—", true],
-     ["Émise le ", C.formatDateFR(state.invoice.date) || "—", false],
-     ["Échéance ", C.formatDateFR(state.invoice.due) || "—", false]].forEach(function (m) {
+    var metaRows = [[avoir ? "Avoir n° " : "N° ", state.invoice.number || "—", true],
+                    [avoir ? "Émis le " : "Émise le ", C.formatDateFR(state.invoice.date) || "—", false]];
+    if (!avoir) metaRows.push(["Échéance ", C.formatDateFR(state.invoice.due) || "—", false]);
+    metaRows.forEach(function (m) {
       doc.setFont("helvetica", m[2] ? "bold" : "normal");
       text(m[0] + m[1], RIGHT, yR, { align: "right" }); yR += 4.6;
     });
 
     y = Math.max(yL, yR) + 6;
+
+    /* Avoir : bandeau de référence à la facture d'origine (mention obligatoire de sens). */
+    if (avoir) {
+      var refTxt = "Avoir sur facture : " + (state.invoice.originalRef || "n° … (à préciser)");
+      setFont(9, "bold", [169, 51, 23]);
+      var refSegs = doc.splitTextToSize(refTxt, RIGHT - MARGIN - 8);
+      var refH = 5 + refSegs.length * 4.4;
+      doc.setFillColor(246, 227, 220);
+      doc.roundedRect(MARGIN, y, RIGHT - MARGIN, refH, 1.5, 1.5, "F");
+      var ry = y + 5.4;
+      refSegs.forEach(function (seg) { text(seg, MARGIN + 4, ry); ry += 4.4; });
+      y += refH + 6;
+    }
 
     /* ---- Bloc client (encadré gris, à droite) ---- */
     var clLines = [];
@@ -178,7 +193,7 @@
     doc.setLineWidth(0.7);
     doc.line(totX, y - 1.5, RIGHT, y - 1.5);
     y += 3.5;
-    totalRow("Net à payer", money(totals.totalTTC), { bold: true, big: true, ink: true });
+    totalRow(avoir ? "Montant de l'avoir" : "Net à payer", money(totals.totalTTC), { bold: true, big: true, ink: true });
 
     if (franchise) {
       pageBreak(5);
@@ -191,18 +206,24 @@
       y += 3;
     }
 
-    /* ---- Règlement ---- */
+    /* ---- Règlement (facture) ou remboursement/imputation (avoir) ---- */
+    var payTitle = avoir ? "Remboursement" : "Règlement";
     var payLines = [];
-    if (state.invoice.payment) payLines.push("Mode de règlement : " + state.invoice.payment);
-    if (state.emitter.iban) payLines.push("IBAN : " + state.emitter.iban + (state.emitter.bic ? "   BIC : " + state.emitter.bic : ""));
-    if (state.invoice.due) payLines.push("À régler au plus tard le " + C.formatDateFR(state.invoice.due));
+    if (avoir) {
+      payLines.push("Montant à votre crédit : " + money(totals.totalTTC) + ".");
+      payLines.push("À imputer sur la facture " + (state.invoice.originalRef || "concernée") + ", ou à rembourser.");
+    } else {
+      if (state.invoice.payment) payLines.push("Mode de règlement : " + state.invoice.payment);
+      if (state.emitter.iban) payLines.push("IBAN : " + state.emitter.iban + (state.emitter.bic ? "   BIC : " + state.emitter.bic : ""));
+      if (state.invoice.due) payLines.push("À régler au plus tard le " + C.formatDateFR(state.invoice.due));
+    }
     if (payLines.length) {
       var ph = 7 + payLines.length * 4.4;
       pageBreak(ph + 4);
       doc.setFillColor(LIGHT[0], LIGHT[1], LIGHT[2]);
       doc.roundedRect(MARGIN, y, RIGHT - MARGIN, ph, 1.5, 1.5, "F");
       setFont(9, "bold", INK);
-      text("Règlement", MARGIN + 4, y + 5.2);
+      text(payTitle, MARGIN + 4, y + 5.2);
       setFont(8.8, "normal", [60, 60, 60]);
       var py = y + 10;
       payLines.forEach(function (l) { text(l, MARGIN + 4, py); py += 4.4; });
@@ -224,7 +245,7 @@
       doc.setPage(p);
       setFont(7, "normal", [153, 153, 153]);
       /* La ligne de promotion disparaît en Pro ; la pagination reste. */
-      if (!pro) text("Facture créée avec FactureLibre — générateur gratuit pour micro-entrepreneurs", PAGE_W / 2, 290, { align: "center" });
+      if (!pro) text("Document créé avec FactureLibre — générateur gratuit pour micro-entrepreneurs", PAGE_W / 2, 290, { align: "center" });
       if (pages > 1) text("page " + p + "/" + pages, RIGHT, 290, { align: "right" });
     }
 

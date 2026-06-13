@@ -115,3 +115,21 @@ marque et confusion d'écosystème.
 **Décision** : (1) ne pas renommer à chaud ; (2) AVANT tout achat de domaine ou campagne P4
 (Product Hunt / Show HN), trancher : vérification INPI puis cohabitation assumée OU renommage
 (coût encore faible : < 2 h aujourd'hui, bien plus cher après) ; (3) réévaluer à chaque cycle.
+
+## D-012 — 2026-06-13 — Gestion native des avoirs (factures d'avoir)
+
+**Contexte** : le guide « facture d'avoir » (cycle 1) a défini le besoin réglementaire ; l'outil ne
+gérait que des factures. Un avoir est une demande récurrente et le complément naturel d'un générateur
+de factures conforme.
+**Décision** : type de document Facture/Avoir dans l'outil, avec : séries de numérotation distinctes
+(FAC- et AV-, recommandation du guide), référence obligatoire à la facture d'origine (validée à
+l'export), titre « AVOIR », bloc « Remboursement », mentions par défaut adaptées, et une action
+« Avoir » dans l'historique qui établit l'avoir depuis une facture archivée (reprise client + lignes,
+référence pré-remplie). Convention de montants : **positifs** sur le document (lisibilité, conforme au
+guide) mais **négatifs dans l'export CSV** comptable (somme juste, nouvelle colonne « Type »).
+**Justification** : zéro coût (toujours client-side), aucune nouvelle dépendance, le moteur calc.js
+est inchangé (mêmes maths). Renforce le SEO (le guide peut désormais pointer une fonctionnalité réelle,
+pas une promesse). **Réversibilité** : le type de document est un champ d'état ; rétrocompatibilité
+assurée (brouillons et historique d'avant la fonctionnalité migrés en « facture » à la lecture).
+**Vérifié** : flux facture intact (non-régression), flux avoir complet (aperçu + PDF + historique),
+numérotation round-trip, validation, responsive mobile, zéro erreur console.

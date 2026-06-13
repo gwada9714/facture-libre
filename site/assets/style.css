@@ -172,6 +172,32 @@ input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-
 }
 input[aria-invalid="true"] { border-color: var(--red); background: #fdf7f5; }
 .field-warn { font-size: 0.78rem; color: var(--red-deep); margin-top: 3px; min-height: 0; }
+.field-hint { font-size: 0.78rem; color: var(--ink-2); margin-top: 3px; }
+
+/* sélecteur de type de document (Facture / Avoir) */
+.doctype { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.doctype-btn {
+  font: inherit; font-weight: 700; cursor: pointer;
+  border: none; background: var(--card); color: var(--ink-2);
+  padding: 8px 22px;
+}
+.doctype-btn + .doctype-btn { border-left: 1px solid var(--line); }
+.doctype-btn.is-active { background: var(--ink); color: #fdfbf4; }
+.doctype-btn:focus-visible { outline: none; box-shadow: inset 0 0 0 2px rgba(28, 43, 74, 0.4); }
+
+/* champs conditionnels au type de document */
+.avoir-only { display: none; }
+form.avoir-on .avoir-only { display: flex; }
+form.avoir-on .due-only { display: none; }
+
+/* accent visuel : un avoir n'est pas une facture, on le signale dans l'aperçu */
+.sheet.is-avoir .inv-title { color: var(--red-deep); }
+.inv-ref {
+  margin: -6px 0 16px; padding: 8px 12px;
+  background: var(--red-soft); border: 1px solid #ecc9bd; border-radius: 6px;
+  font-size: 0.86em; color: var(--ink-strong);
+}
+.inv-ref .tag { font-size: 0.82em; letter-spacing: 0.04em; text-transform: uppercase; color: var(--red-deep); font-weight: 700; }
 
 /* interrupteur franchise de TVA */
 .switch-row {

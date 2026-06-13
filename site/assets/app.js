@@ -34,6 +34,10 @@
     "Pénalités de retard : trois fois le taux d'intérêt légal annuel. " +
     "Indemnité forfaitaire pour frais de recouvrement : 40 € (clients professionnels, art. L441-10 du Code de commerce).";
 
+  /* Les mentions de retard de paiement n'ont pas de sens sur un avoir. */
+  var DEFAULT_MENTIONS_AVOIR = "Avoir établi en régularisation de la facture susvisée. " +
+    "Il vient en déduction du montant dû ; si la facture concernée a déjà été réglée, il donne lieu à remboursement.";
+
   var UNITS = ["unité", "heure", "jour", "forfait", "mois"];
   var VAT_RATES = ["20", "10", "5.5", "2.1", "0"];
 
@@ -42,23 +46,33 @@
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   }
 
-  /* ----- Compteur de numérotation (séquence annuelle, jamais décrémenté) ----- */
+  /* ----- Compteur de numérotation (séquences annuelles, jamais décrémentées) -----
+   * Deux séries distinctes (recommandation du guide « facture d'avoir ») :
+   * factures FAC-AAAA-NNN, avoirs AV-AAAA-NNN. Stockées dans un seul objet,
+   * rétrocompatible avec l'ancien format { year, seq }. */
 
   function getCounter() {
     var y = new Date().getFullYear();
     var c = lsGet(LS.counter, null);
-    if (!c || c.year !== y) c = { year: y, seq: 1 };
+    if (!c || c.year !== y) c = { year: y, seq: 1, avoirSeq: 1 };
+    if (c.avoirSeq == null) c.avoirSeq = 1; // migration depuis l'ancien format
     return c;
   }
-  function peekNumber() {
+  function peekNumber(docType) {
     var c = getCounter();
-    return C.formatInvoiceNumber("FAC", c.year, c.seq);
+    return docType === "avoir"
+      ? C.formatInvoiceNumber("AV", c.year, c.avoirSeq)
+      : C.formatInvoiceNumber("FAC", c.year, c.seq);
   }
-  /* Consomme la séquence en s'alignant sur le numéro réellement utilisé (saisie manuelle incluse). */
-  function bumpCounter(usedNumber) {
+  /* Consomme la bonne séquence en s'alignant sur le numéro réellement utilisé (saisie manuelle incluse). */
+  function bumpCounter(usedNumber, docType) {
     var c = getCounter();
     var n = C.parseTrailingSeq(usedNumber);
-    c.seq = (n !== null) ? Math.max(c.seq, n + 1) : c.seq + 1;
+    if (docType === "avoir") {
+      c.avoirSeq = (n !== null) ? Math.max(c.avoirSeq, n + 1) : c.avoirSeq + 1;
+    } else {
+      c.seq = (n !== null) ? Math.max(c.seq, n + 1) : c.seq + 1;
+    }
     lsSet(LS.counter, c);
   }
 
@@ -76,7 +90,10 @@
     return {
       emitter: em,
       client: { name: "", address: "", siret: "" },
-      invoice: { number: peekNumber(), date: todayISO(), due: C.addDays(todayISO(), 30), payment: "Virement bancaire" },
+      invoice: {
+        docType: "facture", originalRef: "",
+        number: peekNumber("facture"), date: todayISO(), due: C.addDays(todayISO(), 30), payment: "Virement bancaire"
+      },
       lines: [freshLine()],
       discountPct: "",
       mentions: DEFAULT_MENTIONS,
@@ -88,6 +105,11 @@
   /* Robustesse : un brouillon corrompu ou d'une version antérieure ne doit pas bloquer l'outil. */
   if (!state || !state.emitter || !state.invoice || !Array.isArray(state.lines)) state = freshState();
   if (!state.lines.length) state.lines = [freshLine()];
+  /* Migration des brouillons d'avant l'ajout des avoirs. */
+  if (!state.invoice.docType) state.invoice.docType = "facture";
+  if (state.invoice.originalRef == null) state.invoice.originalRef = "";
+
+  function isAvoir() { return state.invoice.docType === "avoir"; }
 
   var persistTimer = null;
   function persist() {
@@ -113,6 +135,7 @@
     ["#cl-address", function () { return state.client.address; }, function (v) { state.client.address = v; }],
     ["#cl-siret", function () { return state.client.siret; }, function (v) { state.client.siret = v; }],
     ["#inv-number", function () { return state.invoice.number; }, function (v) { state.invoice.number = v; }],
+    ["#inv-ref", function () { return state.invoice.originalRef; }, function (v) { state.invoice.originalRef = v; }],
     ["#inv-date", function () { return state.invoice.date; }, function (v) { state.invoice.date = v; }],
     ["#inv-due", function () { return state.invoice.due; }, function (v) { state.invoice.due = v; }],
     ["#inv-payment", function () { return state.invoice.payment; }, function (v) { state.invoice.payment = v; }],
@@ -127,6 +150,19 @@
     });
     $("#em-franchise").checked = !!state.emitter.franchise;
     $("#invoice-form").classList.toggle("franchise-on", !!state.emitter.franchise);
+    renderDocType();
+  }
+
+  /* Reflète le type de document (facture/avoir) dans l'UI du formulaire. */
+  function renderDocType() {
+    var avoir = isAvoir();
+    $("#invoice-form").classList.toggle("avoir-on", avoir);
+    $("#doctype-facture").classList.toggle("is-active", !avoir);
+    $("#doctype-avoir").classList.toggle("is-active", avoir);
+    $("#doctype-facture").setAttribute("aria-checked", avoir ? "false" : "true");
+    $("#doctype-avoir").setAttribute("aria-checked", avoir ? "true" : "false");
+    $("#ref-field").hidden = !avoir;
+    $("#inv-date-label").textContent = avoir ? "Date de l'avoir" : "Date d'émission";
   }
 
   function bindInputs() {
@@ -145,6 +181,32 @@
     });
     $("#em-siret").addEventListener("input", function () { warnSiret(this, "#em-siret-warn"); });
     $("#cl-siret").addEventListener("input", function () { warnSiret(this, "#cl-siret-warn"); });
+
+    $("#doctype-facture").addEventListener("click", function () { setDocType("facture"); });
+    $("#doctype-avoir").addEventListener("click", function () { setDocType("avoir"); });
+  }
+
+  /* Un numéro « auto » suit le motif PREFIXE-AAAA-NNN ; un numéro saisi à la main
+   * (format personnel) ne correspond pas et ne doit pas être écrasé à la bascule. */
+  function looksAuto(number, type) {
+    var prefix = type === "avoir" ? "AV" : "FAC";
+    return new RegExp("^" + prefix + "-\\d{4}-\\d+$").test(String(number || ""));
+  }
+
+  /*
+   * Bascule facture/avoir. Renumérote dans la bonne série tant que le numéro n'a pas
+   * été personnalisé ; n'écrase les mentions que si elles sont restées au texte par
+   * défaut (on respecte les saisies de l'utilisateur).
+   */
+  function setDocType(type) {
+    if (state.invoice.docType === type) return;
+    var prevType = state.invoice.docType;
+    if (looksAuto(state.invoice.number, prevType)) state.invoice.number = peekNumber(type);
+    if (type === "avoir" && state.mentions === DEFAULT_MENTIONS) state.mentions = DEFAULT_MENTIONS_AVOIR;
+    else if (type === "facture" && state.mentions === DEFAULT_MENTIONS_AVOIR) state.mentions = DEFAULT_MENTIONS;
+    state.invoice.docType = type;
+    hydrateInputs();
+    update();
   }
 
   /* Avertissement SIRET : informatif, jamais bloquant (exceptions connues, ex. La Poste). */
@@ -238,6 +300,8 @@
   function renderPreview() {
     var sheet = $("#invoice-sheet");
     sheet.textContent = "";
+    var avoir = isAvoir();
+    sheet.classList.toggle("is-avoir", avoir);
     var totals = C.computeTotals(state.lines, { discountPct: state.discountPct, franchise: state.emitter.franchise });
 
     /* En-tête : émetteur + bloc méta */
@@ -259,11 +323,12 @@
     head.appendChild(emBox);
 
     var meta = el("div", "inv-meta");
-    meta.appendChild(el("div", "inv-title", "FACTURE"));
+    meta.appendChild(el("div", "inv-title", avoir ? "AVOIR" : "FACTURE"));
     var mt = document.createElement("table");
-    [["N°", state.invoice.number || "—"],
-     ["Émise le", C.formatDateFR(state.invoice.date) || "—"],
-     ["Échéance", C.formatDateFR(state.invoice.due) || "—"]].forEach(function (pair) {
+    var metaRows = [[avoir ? "Avoir n°" : "N°", state.invoice.number || "—"],
+                    [avoir ? "Émis le" : "Émise le", C.formatDateFR(state.invoice.date) || "—"]];
+    if (!avoir) metaRows.push(["Échéance", C.formatDateFR(state.invoice.due) || "—"]);
+    metaRows.forEach(function (pair) {
       var tr = document.createElement("tr");
       tr.appendChild(el("td", null, pair[0]));
       tr.appendChild(el("td", null, pair[1]));
@@ -272,6 +337,14 @@
     meta.appendChild(mt);
     head.appendChild(meta);
     sheet.appendChild(head);
+
+    /* Avoir : référence à la facture d'origine (mention qui donne son sens au document) */
+    if (avoir) {
+      var ref = el("div", "inv-ref");
+      ref.appendChild(el("span", "tag", "Avoir sur facture "));
+      ref.appendChild(document.createTextNode(state.invoice.originalRef || "n° … (à préciser)"));
+      sheet.appendChild(ref);
+    }
 
     /* Client */
     var cl = el("div", "inv-client");
@@ -332,7 +405,7 @@
         tot.appendChild(rowKV("TVA " + String(rate).replace(".", ",") + " %", C.formatEUR(totals.vatByRate[rate])));
       });
     }
-    tot.appendChild(rowKV("Net à payer", C.formatEUR(totals.totalTTC), "grand"));
+    tot.appendChild(rowKV(avoir ? "Montant de l'avoir" : "Net à payer", C.formatEUR(totals.totalTTC), "grand"));
     sheet.appendChild(tot);
 
     /* Franchise : mention obligatoire bien visible */
@@ -342,13 +415,19 @@
       sheet.appendChild(fr);
     }
 
-    /* Règlement */
+    /* Règlement (facture) ou remboursement/imputation (avoir) */
     var pay = el("div", "inv-pay");
-    pay.appendChild(el("div", "t", "Règlement"));
     var payLines = [];
-    if (state.invoice.payment) payLines.push("Mode de règlement : " + state.invoice.payment);
-    if (state.emitter.iban) payLines.push("IBAN : " + state.emitter.iban + (state.emitter.bic ? " — BIC : " + state.emitter.bic : ""));
-    if (state.invoice.due) payLines.push("À régler au plus tard le " + C.formatDateFR(state.invoice.due));
+    if (avoir) {
+      pay.appendChild(el("div", "t", "Remboursement"));
+      payLines.push("Montant à votre crédit : " + C.formatEUR(totals.totalTTC) + ".");
+      payLines.push("À imputer sur la facture " + (state.invoice.originalRef || "concernée") + ", ou à rembourser.");
+    } else {
+      pay.appendChild(el("div", "t", "Règlement"));
+      if (state.invoice.payment) payLines.push("Mode de règlement : " + state.invoice.payment);
+      if (state.emitter.iban) payLines.push("IBAN : " + state.emitter.iban + (state.emitter.bic ? " — BIC : " + state.emitter.bic : ""));
+      if (state.invoice.due) payLines.push("À régler au plus tard le " + C.formatDateFR(state.invoice.due));
+    }
     payLines.forEach(function (l) { pay.appendChild(el("div", null, l)); });
     sheet.appendChild(pay);
 
@@ -357,7 +436,7 @@
 
     /* La discrète ligne de promotion disparaît en Pro. */
     if (!IS_PRO) {
-      var foot = el("div", "inv-foot", "Facture créée avec FactureLibre — générateur gratuit pour micro-entrepreneurs");
+      var foot = el("div", "inv-foot", "Document créé avec FactureLibre — générateur gratuit pour micro-entrepreneurs");
       sheet.appendChild(foot);
     }
   }
@@ -385,6 +464,7 @@
     var entry = {
       id: state.savedId,
       number: state.invoice.number,
+      docType: state.invoice.docType,
       client: state.client.name,
       date: state.invoice.date,
       ttc: totals.totalTTC,
@@ -398,7 +478,7 @@
     if (idx >= 0) hist[idx] = entry; else hist.unshift(entry);
     if (hist.length > 100) hist.length = 100;
     lsSet(LS.history, hist);
-    bumpCounter(state.invoice.number);
+    bumpCounter(state.invoice.number, state.invoice.docType);
     renderHistory();
     persist();
   }
@@ -411,11 +491,14 @@
     hist.forEach(function (h) {
       var li = document.createElement("li");
       li.appendChild(el("span", "num", h.number));
-      li.appendChild(el("span", "who", (h.client || "—") + " · " + (C.formatDateFR(h.date) || "")));
+      var who = (h.docType === "avoir" ? "Avoir · " : "") + (h.client || "—") + " · " + (C.formatDateFR(h.date) || "");
+      li.appendChild(el("span", "who", who));
       li.appendChild(el("span", "amt", C.formatEUR(h.ttc)));
       var acts = el("span", "acts");
       acts.appendChild(histBtn("Rouvrir", function () { loadEntry(h, true); }));
       acts.appendChild(histBtn("Dupliquer", function () { loadEntry(h, false); }));
+      /* Un avoir ne s'établit que sur une facture (pas sur un autre avoir). */
+      if (h.docType !== "avoir") acts.appendChild(histBtn("Avoir", function () { makeAvoirFrom(h); }));
       acts.appendChild(histBtn("Suppr.", function () {
         if (!confirm("Supprimer " + h.number + " de l'historique ?")) return;
         lsSet(LS.history, getHistory().filter(function (x) { return x.id !== h.id; }));
@@ -438,14 +521,38 @@
     state.emitter = s.emitter; state.client = s.client; state.invoice = s.invoice;
     state.lines = s.lines && s.lines.length ? s.lines : [freshLine()];
     state.discountPct = s.discountPct; state.mentions = s.mentions;
+    /* Rétrocompat : entrées archivées avant l'ajout des avoirs. */
+    if (!state.invoice.docType) state.invoice.docType = "facture";
+    if (state.invoice.originalRef == null) state.invoice.originalRef = "";
     if (keepIdentity) {
       state.savedId = h.id;
     } else {
       state.savedId = null;
-      state.invoice.number = peekNumber();
+      state.invoice.number = peekNumber(state.invoice.docType);
       state.invoice.date = todayISO();
-      state.invoice.due = C.addDays(todayISO(), 30);
+      state.invoice.due = isAvoir() ? "" : C.addDays(todayISO(), 30);
     }
+    hydrateInputs(); renderLines(); update();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* Établit un avoir à partir d'une facture archivée : reprend client et lignes,
+   * référence la facture d'origine, numérote dans la série AV (le guide « facture d'avoir »). */
+  function makeAvoirFrom(h) {
+    var s = JSON.parse(JSON.stringify(h.state));
+    state.emitter = s.emitter; state.client = s.client;
+    state.lines = s.lines && s.lines.length ? s.lines : [freshLine()];
+    state.discountPct = s.discountPct;
+    state.mentions = DEFAULT_MENTIONS_AVOIR;
+    state.savedId = null;
+    state.invoice = {
+      docType: "avoir",
+      originalRef: h.number + " du " + (C.formatDateFR(h.date) || ""),
+      number: peekNumber("avoir"),
+      date: todayISO(),
+      due: "",
+      payment: s.invoice && s.invoice.payment ? s.invoice.payment : "Virement bancaire"
+    };
     hydrateInputs(); renderLines(); update();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -459,6 +566,7 @@
     if (!state.client.name.trim()) missing.push("le nom du client (section 2)");
     var hasLine = state.lines.some(function (l) { return l.desc.trim() && Number(l.qty) > 0; });
     if (!hasLine) missing.push("au moins une prestation avec désignation (section 4)");
+    if (isAvoir() && !state.invoice.originalRef.trim()) missing.push("la facture d'origine concernée (section 3)");
     if (missing.length) {
       alert("Avant d'exporter, complétez : \n– " + missing.join("\n– "));
       return false;
@@ -558,10 +666,14 @@
     var sep = ";";
     function num(x) { return x.toFixed(2).replace(".", ","); }
     function field(s) { s = String(s == null ? "" : s); return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
-    var lines = [["Numero", "Date", "Client", "Total HT", "TVA", "Total TTC"].join(sep)];
+    var lines = [["Type", "Numero", "Date", "Client", "Total HT", "TVA", "Total TTC"].join(sep)];
     hist.slice().reverse().forEach(function (h) {
       var t = C.computeTotals(h.state.lines, { discountPct: h.state.discountPct, franchise: h.state.emitter.franchise });
-      lines.push([field(h.number), C.formatDateFR(h.date), field(h.client), num(t.totalHT), num(t.totalTVA), num(t.totalTTC)].join(sep));
+      /* Un avoir vient en déduction : montants négatifs pour une somme comptable juste. */
+      var avoir = h.docType === "avoir";
+      var sign = avoir ? -1 : 1;
+      lines.push([avoir ? "Avoir" : "Facture", field(h.number), C.formatDateFR(h.date), field(h.client),
+        num(sign * t.totalHT), num(sign * t.totalTVA), num(sign * t.totalTTC)].join(sep));
     });
     /* BOM UTF-8 : Excel français ouvre le fichier avec les accents corrects. */
     var blob = new Blob([String.fromCharCode(0xFEFF) + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });

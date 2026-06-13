@@ -177,7 +177,16 @@
           <section class="card" aria-labelledby="h-invoice">
             <div class="card-head">
               <span class="stepnum" aria-hidden="true">3</span>
-              <h2 id="h-invoice">La facture</h2>
+              <h2 id="h-invoice">Le document</h2>
+            </div>
+            <div class="doctype" role="radiogroup" aria-label="Type de document">
+              <button type="button" class="doctype-btn is-active" id="doctype-facture" role="radio" aria-checked="true">Facture</button>
+              <button type="button" class="doctype-btn" id="doctype-avoir" role="radio" aria-checked="false">Avoir</button>
+            </div>
+            <div class="field avoir-only" id="ref-field" hidden>
+              <label for="inv-ref">Facture d'origine concernée</label>
+              <input type="text" id="inv-ref" placeholder="FAC-2026-014 du 03/06/2026">
+              <span class="field-hint">Référence obligatoire : l'avoir doit indiquer la facture qu'il corrige.</span>
             </div>
             <div class="grid3">
               <div class="field">
@@ -185,10 +194,10 @@
                 <input type="text" id="inv-number">
               </div>
               <div class="field">
-                <label for="inv-date">Date d'émission</label>
+                <label for="inv-date" id="inv-date-label">Date d'émission</label>
                 <input type="date" id="inv-date">
               </div>
-              <div class="field">
+              <div class="field due-only" id="due-field">
                 <label for="inv-due">Date d'échéance</label>
                 <input type="date" id="inv-due">
               </div>

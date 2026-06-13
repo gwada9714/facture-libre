@@ -42,6 +42,7 @@
 | 2026-06-11 | 0,00 € | 0,00 € | — | Pro v1 livré + **rail de paiement ouvert** (Stripe actif, bouton Pro en ligne). Reste : § B mentions légales, § D analytics, distribution |
 | 2026-06-11 (soir) | 0,00 € | 0,00 € | — | **HUMAN_SETUP 100 % soldé** (§ B mentions légales + SIREN, § D analytics 9 pages). IndexNow automatisé à chaque déploiement. Kit de distribution publié (DISTRIBUTION.md) — prochaine action humaine prioritaire : Search Console (P1) |
 | 2026-06-12 | 0,00 € | 0,00 € | à lire (dashboard CF) | **Cycle 1** : système 100 % vert (healthcheck réel OK, 0 incident, paiement OK). 4e guide publié (facture d'avoir) + maillage interne. Collision de nom consignée (D-011). Indexation pas encore visible (J+2 : normal). Backlog produit : gestion native des avoirs |
+| 2026-06-13 | 0,00 € | 0,00 € | à lire (dashboard CF) | **Cycle 2** : gestion native des avoirs livrée (D-012) — type Facture/Avoir, séries AV-, action « Avoir » depuis l'historique, PDF dédié, CSV comptable signé. Vérifiée de bout en bout. Le guide d'avoir pointe désormais une fonctionnalité réelle |
 
 ## Limites free tier surveillées
 
