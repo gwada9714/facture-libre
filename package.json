@@ -6,10 +6,14 @@
   "scripts": {
     "test": "node tools/test-calc.js",
     "serve": "npx serve site",
-    "build:sitemap": "node tools/build-sitemap.js"
+    "build:sitemap": "node tools/build-sitemap.js",
+    "build:brand": "node brand/render.js"
   },
   "license": "MIT",
   "dependencies": {
     "jspdf": "^4.2.1"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2"
   }
 }

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#1c2b4a"/>
+  <!-- anneau papier discret -->
+  <circle cx="200" cy="200" r="185" fill="none" stroke="#f6f1e6" stroke-opacity="0.14" stroke-width="3"/>
+  <!-- monogramme F (papier) -->
+  <g fill="#f6f1e6">
+    <rect x="123" y="104" width="40" height="182" rx="3"/>
+    <rect x="123" y="104" width="122" height="40" rx="3"/>
+    <rect x="123" y="186" width="94" height="34" rx="3"/>
+  </g>
+  <!-- point rouge : l'accent de marque « . » -->
+  <circle cx="255" cy="280" r="22" fill="#bf3b1f"/>
+</svg>
