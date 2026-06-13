@@ -16,15 +16,15 @@
 
 ## 2. Actions humaines à fort levier (ordre de priorité)
 
-### P1 — Google Search Console (~5 min, compte Google existant) 🎯 LA priorité
-Google = ~92 % du marché FR. Sans GSC, on pilote le SEO en aveugle.
-1. https://search.google.com/search-console → « Ajouter une propriété » → type **« Préfixe d'URL »** :
-   `https://gwada9714.github.io/facture-libre/`
-2. Méthode de vérification : **« Fichier HTML »** → noter le nom du fichier `googlexxxxxxxx.html`
-   proposé et **le transmettre à l'agent** (qui l'hébergera et déploiera) → cliquer « Vérifier ».
-3. Une fois vérifié : menu Sitemaps → soumettre `sitemap.xml`.
+### P1 — Google Search Console ✅ FAIT (2026-06-11 → 06-13)
+Propriété « Préfixe d'URL » `https://gwada9714.github.io/facture-libre/` vérifiée (fichier
+googlee733e130791ebc98.html), sitemap soumis. **Résultat 2026-06-13** : accueil + guides
+mentions/numérotation + pro = « sur Google / indexée » ; rich results FAQ + fil d'Ariane détectés.
+Reste à surveiller : statut du sitemap (« Impossible de récupérer » = latence nouvelle propriété,
+non bloquant ; si encore bloqué à J+7, supprimer puis re-soumettre) et l'apparition des premières
+requêtes/clics dans l'onglet « Performances ».
 
-### P2 — AlternativeTo (~10 min, création de compte)
+### P2 — AlternativeTo (~10 min, création de compte) 🎯 prochaine action
 Annuaire de logiciels très indexé, trafic durable. https://alternativeto.net/manage-item/
 — créer la fiche « FactureLibre » (catégorie : Invoicing), en se déclarant créateur.
 Texte EN prêt : voir § 3. Alternatives à renseigner : Invoice-Generator.com, Zervant, Henrri.
@@ -78,7 +78,7 @@ Post de lancement sur votre profil (texte § 3) — l'audience pro FR y est, et 
 | Canal | Compte requis | Statut | Date | Référents (CF Analytics) |
 |---|---|---|---|---|
 | IndexNow (Bing/Yandex) | non | ✅ automatisé | 2026-06-11 | — |
-| Google Search Console | oui (Google) | ☐ en attente du fichier de vérification | | — |
+| Google Search Console | oui (Google) | ✅ vérifié, sitemap soumis, pages indexées | 2026-06-13 | aucun externe encore |
 | AlternativeTo | oui | ☐ | | — |
 | Communautés FR | oui | ☐ continu | | — |
 | Product Hunt | oui | ☐ différé (après premiers retours) | | — |
