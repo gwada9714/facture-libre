@@ -11,7 +11,7 @@
 | **Coûts cumulés** | **0,00 €** | Aucun service payant utilisé (vérifié) |
 | Revenu brut cumulé | 0,00 € | Dashboard Stripe (lien de paiement actif depuis le 2026-06-11) |
 | **Revenu net cumulé** | **0,00 €** | revenu brut − coûts |
-| Visiteurs uniques | mesuré (voir dashboard) | Cloudflare Web Analytics, sans cookie — actif sur les 9 pages depuis le 2026-06-11 |
+| Visiteurs externes | 0 au 2026-06-13 | Cloudflare Web Analytics via API (`node tools/cf-analytics.js`) : 10 pages vues, mais référent interne = visites de test du propriétaire, 0 entrée externe |
 | Pages en ligne | 9 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
 | Pages indexées Google | ≥ 4 confirmées (2026-06-13) | GSC : accueil + 2 guides + pro « sur Google / indexée » ; rich results FAQ + fil d'Ariane détectés |
 | Conversions Pro | 0 | Offre non activée |
@@ -30,7 +30,8 @@
 
 1. Trafic : Cloudflare Web Analytics → visiteurs uniques 7 j / 30 j.
 2. Revenus : dashboard Stripe → encaissements nets.
-3. Indexation : Google Search Console → pages indexées, requêtes, clics.
+3. Trafic (autonome) : `node tools/cf-analytics.js [jours]` — pages vues, visites externes, top pages, provenance, pays (lit le token hors dépôt).
+4. Indexation : Google Search Console → pages indexées, requêtes, clics.
 4. Reporter les valeurs ici avec la date, en ajoutant une ligne d'historique ci-dessous.
 5. Analyser : qu'est-ce qui a progressé ? Décision (doubler / couper) consignée dans DECISIONS.md.
 
