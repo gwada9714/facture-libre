@@ -9,7 +9,8 @@ const { Resvg } = require("@resvg/resvg-js");
 
 const jobs = [
   { svg: "profile.svg", out: "profile.png", width: 1000 },   // photo de profil (carrée, affichée en cercle)
-  { svg: "cover.svg", out: "cover.png", width: 1584 }         // bannière de couverture LinkedIn (1584x396)
+  { svg: "cover.svg", out: "cover.png", width: 1584 },        // bannière de couverture LinkedIn (1584x396)
+  { svg: "og.svg", out: "og.png", width: 1200 }              // image de partage social Open Graph (1200x630)
 ];
 
 for (const j of jobs) {
