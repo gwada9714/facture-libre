@@ -11,7 +11,7 @@
 | **Coûts cumulés** | **0,00 €** | Aucun service payant utilisé (vérifié) |
 | Revenu brut cumulé | 0,00 € | Dashboard Stripe (lien de paiement actif depuis le 2026-06-11) |
 | **Revenu net cumulé** | **0,00 €** | revenu brut − coûts |
-| Visiteurs externes | 1 (LinkedIn) au 2026-06-17 | Cloudflare Web Analytics via API : référent `www.linkedin.com` (1), + pro.html et 1 guide consultés. Premier visiteur humain externe ✅ |
+| Visiteurs externes | 2 canaux au 2026-06-18 | Cloudflare via API (7 j) : `www.google.com` (1) + `www.linkedin.com` (1). 1er clic organique Google ✅. pro.html vu 3×, 1 guide 2× |
 | Pages en ligne | 9 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
 | Pages indexées Google | ≥ 4 confirmées (2026-06-13) | GSC : accueil + 2 guides + pro « sur Google / indexée » ; rich results FAQ + fil d'Ariane détectés |
 | Conversions Pro | 0 | Offre non activée |
@@ -47,6 +47,7 @@
 | 2026-06-13 | 0,00 € | 0,00 € | à lire (dashboard CF) | **Jalon indexation** : Google a indexé l'accueil + 2 guides + pro (vérifié GSC), rich results FAQ + fil d'Ariane détectés. Sitemap encore en « Impossible de récupérer » = latence GSC nouvelle propriété, NON bloquant (serveur 200/xml re-vérifié). Le flywheel SEO a démarré |
 | 2026-06-13 | 0,00 € | 0,00 € | 0 externe | **Cycle 3** : système vert, 0 issue. Trafic lu en autonomie (`cf-analytics.js`) : 20 pages vues, mais référents = interne (test) + direct/US (≈ Googlebot/rendu GSC) → toujours 0 humain externe, pas de `linkedin.com`. Action SEO : 5e guide « première facture auto-entrepreneur » (forte intention) + maillage. En attente : post LinkedIn + AlternativeTo (lundi) |
 | 2026-06-17 | 0,00 € | 0,00 € | **1 (LinkedIn)** | **Cycle 4** : healthcheck du 15/06 OK, 0 issue. **1er visiteur externe via LinkedIn** (a consulté pro.html + 1 guide). Action : image de partage Open Graph (1200×630) sur les 8 pages → cartes de prévisualisation pour amplifier le canal qui marche. Toujours 0 référent google.com (SEO plus lent), 0 conversion |
+| 2026-06-18 | 0,00 € | 0,00 € | **2 (Google + LinkedIn)** | Point trafic (7 j) : **1er clic organique `google.com`** en plus de LinkedIn → le SEO commence à amener des clics. pro.html vu 3×. Échelle encore minuscule (~2 humains externes), 0 conversion. Sitemap GSC : échec confirmé côté Google (github.io), non bloquant — voir mémoire |
 
 ## Limites free tier surveillées
 
