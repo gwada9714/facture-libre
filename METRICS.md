@@ -11,7 +11,7 @@
 | **Coûts cumulés** | **0,00 €** | Aucun service payant utilisé (vérifié) |
 | Revenu brut cumulé | 0,00 € | Dashboard Stripe (lien de paiement actif depuis le 2026-06-11) |
 | **Revenu net cumulé** | **0,00 €** | revenu brut − coûts |
-| Visiteurs externes | ~0 (flatline) au 2026-06-21 | Cloudflare via API (7 j) : 6 pages vues seulement, 1 réf. `www.google.com`, **0 activité du 18 au 21**. Les clics Google/LinkedIn étaient des one-shots non répétés |
+| Visiteurs externes | 0 au 2026-06-24 | Cloudflare via API (7 j) : **1 seule page vue** (le 17/06), puis **rien pendant 7 jours**. Trafic à l'arrêt complet. Bottleneck = distribution non amorcée |
 | Pages en ligne | 9 (sitemap vérifié) | https://gwada9714.github.io/facture-libre/ |
 | Pages indexées Google | ≥ 4 confirmées (2026-06-13) | GSC : accueil + 2 guides + pro « sur Google / indexée » ; rich results FAQ + fil d'Ariane détectés |
 | Conversions Pro | 0 | Offre non activée |
@@ -49,6 +49,7 @@
 | 2026-06-17 | 0,00 € | 0,00 € | **1 (LinkedIn)** | **Cycle 4** : healthcheck du 15/06 OK, 0 issue. **1er visiteur externe via LinkedIn** (a consulté pro.html + 1 guide). Action : image de partage Open Graph (1200×630) sur les 8 pages → cartes de prévisualisation pour amplifier le canal qui marche. Toujours 0 référent google.com (SEO plus lent), 0 conversion |
 | 2026-06-18 | 0,00 € | 0,00 € | **2 (Google + LinkedIn)** | Point trafic (7 j) : **1er clic organique `google.com`** en plus de LinkedIn → le SEO commence à amener des clics. pro.html vu 3×. Échelle encore minuscule (~2 humains externes), 0 conversion. Sitemap GSC : échec confirmé côté Google (github.io), non bloquant — voir mémoire |
 | 2026-06-21 | 0,00 € | 0,00 € | ~0 (flatline) | Point trafic (7 j) : **6 pages vues, 0 activité depuis le 18**. Les clics Google/LinkedIn ne se répètent pas → le « lancement » est retombé. Vérité : produit fini, mais **distribution = one-shots sans suite**. AlternativeTo toujours pas visible. Bottleneck = distribution soutenue (humaine), pas le code |
+| 2026-06-24 | 0,00 € | 0,00 € | **0** | Point trafic (7 j) : **1 page vue en 7 jours, trafic à l'arrêt**. 2 semaines que « le bottleneck = distribution » sans action de distribution → résultat prévisible. Décision stratégique requise (engager la distribution / domaine / laisser composer / réorienter vers venture 2). Le code n'est plus le sujet |
 
 ## Limites free tier surveillées
 
