@@ -50,6 +50,7 @@
 | 2026-06-18 | 0,00 € | 0,00 € | **2 (Google + LinkedIn)** | Point trafic (7 j) : **1er clic organique `google.com`** en plus de LinkedIn → le SEO commence à amener des clics. pro.html vu 3×. Échelle encore minuscule (~2 humains externes), 0 conversion. Sitemap GSC : échec confirmé côté Google (github.io), non bloquant — voir mémoire |
 | 2026-06-21 | 0,00 € | 0,00 € | ~0 (flatline) | Point trafic (7 j) : **6 pages vues, 0 activité depuis le 18**. Les clics Google/LinkedIn ne se répètent pas → le « lancement » est retombé. Vérité : produit fini, mais **distribution = one-shots sans suite**. AlternativeTo toujours pas visible. Bottleneck = distribution soutenue (humaine), pas le code |
 | 2026-06-24 | 0,00 € | 0,00 € | **0** | Point trafic (7 j) : **1 page vue en 7 jours, trafic à l'arrêt**. 2 semaines que « le bottleneck = distribution » sans action de distribution → résultat prévisible. Décision stratégique requise (engager la distribution / domaine / laisser composer / réorienter vers venture 2). Le code n'est plus le sujet |
+| 2026-07-03 | 0,00 € | 0,00 € | 0 | Point trafic : visites externes toujours **0** (CF : 3 vues internes). MAIS 1er signal SEO positif (GSC 28 j) : **position 43,3 → 33,3**, impressions 8 → 11, **5 pages émergent dont 3 guides**. Le SEO compose lentement tout seul ; toujours 0 clic (position 33 = invisible en pratique). Posture veille maintenue, décision stratégique toujours ouverte |
 
 ## Limites free tier surveillées
 
